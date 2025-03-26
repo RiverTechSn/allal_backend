@@ -6,8 +6,8 @@ import * as StreamTransport from 'nodemailer/lib/stream-transport';
 import * as JSONTransport from 'nodemailer/lib/json-transport';
 import * as SESTransport from 'nodemailer/lib/ses-transport';
 import { TemplateAdapter } from './template-adapter.interface';
-declare type Options = SMTPTransport.Options | SMTPPool.Options | SendmailTransport.Options | StreamTransport.Options | JSONTransport.Options | SESTransport.Options | TransportOptions;
-export declare type TransportType = Options | SMTPTransport | SMTPPool | SendmailTransport | StreamTransport | JSONTransport | SESTransport | Transport | string;
+type Options = SMTPTransport.Options | SMTPPool.Options | SendmailTransport.Options | StreamTransport.Options | JSONTransport.Options | SESTransport.Options | TransportOptions;
+export type TransportType = Options | SMTPTransport | SMTPPool | SendmailTransport | StreamTransport | JSONTransport | SESTransport | Transport | string;
 export interface MailerOptions {
     defaults?: Options;
     transport?: TransportType;
@@ -31,5 +31,6 @@ export interface MailerOptions {
             app: string | string[];
         };
     }>;
+    verifyTransporters?: boolean;
 }
 export {};

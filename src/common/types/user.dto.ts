@@ -11,9 +11,10 @@ import { IsAllowOptionalApi } from '../decorators/allow';
 import { LoginUpdateDto } from './login.dto';
 import { PartialType } from '@nestjs/swagger/dist/type-helpers/partial-type.helper';
 import { OmitType } from '@nestjs/swagger/dist/type-helpers/omit-type.helper';
-import { ShopBaseDto } from './shop.dto';
+import { ShopBaseDto, ShopCreateDto } from './shop.dto';
 
 export class UserBase implements User {
+  walletBaseId: number;
   id: number;
 
   loginId: number;
@@ -35,6 +36,7 @@ export class UserBase implements User {
 export class UserCreateDto extends OmitType(UserBase, [
   'id',
   'loginId',
+  'walletBaseId',
 ] as const) {
   @IsValidStringApi({ validationOptions: {} })
   password: string;
@@ -43,10 +45,10 @@ export class UserCreateDto extends OmitType(UserBase, [
 }
 export class UserShopCreateDto extends UserCreateDto {
   @IsAllowOptionalApi()
-  shop: ShopBaseDto;
+  shop: ShopCreateDto;
 }
 export class UserUpdateDto extends PartialType(
-  OmitType(UserBase, ['id', 'loginId'] as const),
+  OmitType(UserBase, ['id', 'loginId', 'walletBaseId'] as const),
 ) {
   @IsValidStringOptionalApi()
   displayname: string;

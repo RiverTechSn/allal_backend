@@ -47,17 +47,19 @@ model Otp {
 // TODO:USER
 
 model User {
-  id          Int        @id @default(autoincrement())
-  login       Login?     @relation(name: "LoginToUser", fields: [loginId], references: [id])
-  loginId     Int?       @unique
-  displayname String
-  email       String?    @unique
-  address     String
-  phone       String     @unique
-  dateOfBirth DateTime?
-  laltitude   Decimal?
-  longitude   Decimal?
-  userShop    UserShop[] @relation(name: "UserToShop")
+  id           Int        @id @default(autoincrement())
+  login        Login?     @relation(name: "LoginToUser", fields: [loginId], references: [id])
+  loginId      Int?       @unique
+  displayname  String
+  email        String?    @unique
+  address      String
+  phone        String     @unique
+  dateOfBirth  DateTime?
+  laltitude    Decimal?
+  longitude    Decimal?
+  walletBase   WalletBase @relation(name: "WalletBaseToUser", fields: [walletBaseId], references: [id])
+  walletBaseId Int        @unique
+  userShop     UserShop[] @relation(name: "UserToShop")
 
   @@map("user")
 }
@@ -74,8 +76,8 @@ model Customer {
   longitude     Decimal?
   dateOfBirth   DateTime?
   customerAlias CustomerAlias[] @relation(name: "CustomerToCustomerAlias")
-  WalletBase    WalletBase      @relation(name: "WalletBaseToCustomer", fields: [entityBaseId], references: [id])
-  entityBaseId  Int             @unique
+  walletBase    WalletBase      @relation(name: "WalletBaseToCustomer", fields: [walletBaseId], references: [id])
+  walletBaseId  Int             @unique
   assignment    Assignment[]    @relation(name: "AssignmentToCustomer")
 
   @@map("customer")
@@ -128,8 +130,8 @@ model Dept {
 // TODO:SHOP
 model Shop {
   id             Int              @id @default(autoincrement())
-  entityBase     WalletBase       @relation(name: "WalletBaseToShop", fields: [entityBaseId], references: [id])
-  entityBaseId   Int              @unique
+  walletBase     WalletBase       @relation(name: "WalletBaseToShop", fields: [walletBaseId], references: [id])
+  walletBaseId   Int              @unique
   laltitude      Decimal?
   longitude      Decimal?
   address        String?
@@ -148,20 +150,20 @@ model Shop {
 
 // TODO:USER_SHOP
 model UserShop {
-  shop      Shop             @relation(name: "Shop2UserShop", fields: [shopId], references: [id])
-  user      User             @relation(name: "UserToShop", fields: [userId], references: [id])
+  shop      Shop              @relation(name: "Shop2UserShop", fields: [shopId], references: [id])
+  user      User              @relation(name: "UserToShop", fields: [userId], references: [id])
   shopId    Int
   userId    Int
-  isActive  Boolean          @default(true)
-  createdAt DateTime?        @default(now())
-  updatedAt DateTime?        @updatedAt
-  role      UserShopRoleEnum
+  isActive  Boolean           @default(true)
+  createdAt DateTime?         @default(now())
+  updatedAt DateTime?         @updatedAt
+  role      UserShopRoleEnum?
 
   @@id([userId, shopId])
   @@map("user_shop")
 }
 
-// TODO:ENTITY_BASE
+// TODO:WALLET_BASE
 model WalletBase {
   id              Int            @id @default(autoincrement())
   type            EntityEnum
@@ -171,6 +173,7 @@ model WalletBase {
   shop            Shop?          @relation(name: "WalletBaseToShop")
   customer        Customer?      @relation(name: "WalletBaseToCustomer")
   isActive        Boolean        @default(true)
+  user            User?          @relation(name: "WalletBaseToUser")
 
   @@map("wallet_base")
 }
@@ -393,9 +396,9 @@ enum PermissionActionEnum {
 }
 
 enum EntityEnum {
-  Company
-  Customer
-  Gym
+  USER
+  CUSTOMER
+  SHOP
 }
 
 enum CardRequestEnum {

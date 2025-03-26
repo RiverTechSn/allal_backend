@@ -54,6 +54,7 @@ __decorate([
 class UserCreateDto extends (0, omit_type_helper_1.OmitType)(UserBase, [
     'id',
     'loginId',
+    'walletBaseId',
 ]) {
 }
 exports.UserCreateDto = UserCreateDto;
@@ -70,9 +71,9 @@ class UserShopCreateDto extends UserCreateDto {
 exports.UserShopCreateDto = UserShopCreateDto;
 __decorate([
     (0, allow_1.IsAllowOptionalApi)(),
-    __metadata("design:type", shop_dto_1.ShopBaseDto)
+    __metadata("design:type", shop_dto_1.ShopCreateDto)
 ], UserShopCreateDto.prototype, "shop", void 0);
-class UserUpdateDto extends (0, partial_type_helper_1.PartialType)((0, omit_type_helper_1.OmitType)(UserBase, ['id', 'loginId'])) {
+class UserUpdateDto extends (0, partial_type_helper_1.PartialType)((0, omit_type_helper_1.OmitType)(UserBase, ['id', 'loginId', 'walletBaseId'])) {
 }
 exports.UserUpdateDto = UserUpdateDto;
 __decorate([

@@ -30,6 +30,7 @@ let MailerCoreModule = MailerCoreModule_1 = class MailerCoreModule {
             providers: [
                 ...providers,
                 mailer_service_1.MailerService,
+                ...(options.extraProviders || []),
             ],
             imports: options.imports,
             exports: [
@@ -66,8 +67,8 @@ let MailerCoreModule = MailerCoreModule_1 = class MailerCoreModule {
         };
     }
 };
-MailerCoreModule = MailerCoreModule_1 = tslib_1.__decorate([
-    common_1.Global(),
-    common_1.Module({})
-], MailerCoreModule);
 exports.MailerCoreModule = MailerCoreModule;
+exports.MailerCoreModule = MailerCoreModule = MailerCoreModule_1 = tslib_1.__decorate([
+    (0, common_1.Global)(),
+    (0, common_1.Module)({})
+], MailerCoreModule);

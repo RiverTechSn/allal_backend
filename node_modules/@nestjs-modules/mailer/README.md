@@ -34,6 +34,8 @@ npm install --save handlebars
 npm install --save pug
 #or
 npm install --save ejs
+#or
+npm install --save mjml
 ```
 
 #### with yarn
@@ -43,6 +45,8 @@ yarn add handlebars
 yarn add pug
 #or
 yarn add ejs
+#or
+yarn add mjml
 ```
 
 ### Documentation
@@ -60,6 +64,8 @@ you can find all the documentation [here](https://nest-modules.github.io/mailer/
 * [Juan Echeverry](https://github.com/juandav)
 * [Pat McGowan](https://github.com/p-mcgowan)
 * [Paweł Partyka](https://github.com/partyka95)
+* [Wasutan Kitijerapat](https://github.com/kitimark)
+* [Alexandre Titeux](https://github.com/GFoniX)
 
 ### License
 

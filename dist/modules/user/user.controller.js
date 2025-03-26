@@ -35,6 +35,9 @@ let UserController = class UserController {
     create(body) {
         return this.userServide.create(body);
     }
+    createWithShop(body) {
+        return this.userServide.createUserWithShop({ body });
+    }
     updateById(id, body) {
         return this.userServide.updateById({ id, body });
     }
@@ -62,6 +65,13 @@ __decorate([
     __metadata("design:paramtypes", [user_dto_1.UserCreateDto]),
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "create", null);
+__decorate([
+    (0, request_mapping_decorator_1.Post)('create-with-shop'),
+    __param(0, (0, route_params_decorator_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [user_dto_1.UserShopCreateDto]),
+    __metadata("design:returntype", void 0)
+], UserController.prototype, "createWithShop", null);
 __decorate([
     (0, request_mapping_decorator_1.Put)('id/:id'),
     __param(0, (0, route_params_decorator_1.Param)('id')),

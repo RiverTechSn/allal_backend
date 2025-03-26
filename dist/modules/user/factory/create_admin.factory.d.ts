@@ -11,4 +11,5 @@ export declare const createAdminFactory: (db: DatabaseService, config: ConfigSer
     dateOfBirth: Date | null;
     laltitude: import("@prisma/client/runtime/library").Decimal | null;
     longitude: import("@prisma/client/runtime/library").Decimal | null;
+    walletBaseId: number;
 }>;

@@ -6,14 +6,12 @@ import { CryptoService } from '../database/crypto_service';
 import { BaseResponse } from 'src/cores/base_response';
 import { UserCreateDto, UserShopCreateDto, UserUpdateDto } from 'src/common/types/user.dto';
 import { UserQueryDto } from 'src/common/types/paginagation_query.dto';
-import { OtpService } from '../otp/otp.service';
 export declare class UserService implements OnModuleInit {
     private readonly db;
     private readonly crypto;
     private readonly config;
     private readonly mailer;
-    private readonly otp;
-    constructor(db: DatabaseService, crypto: CryptoService, config: ConfigService, mailer: EmailerService, otp: OtpService);
+    constructor(db: DatabaseService, crypto: CryptoService, config: ConfigService, mailer: EmailerService);
     onModuleInit(): void;
     create(body: UserCreateDto): Promise<never>;
     updateById({ body, id }: {
@@ -40,10 +38,11 @@ export declare class UserService implements OnModuleInit {
         dateOfBirth: Date | null;
         laltitude: import("@prisma/client/runtime/library").Decimal | null;
         longitude: import("@prisma/client/runtime/library").Decimal | null;
+        walletBaseId: number;
     }>>;
     createUserWithShop({ body }: {
         body: UserShopCreateDto;
-    }): void;
+    }): Promise<void>;
     getAll({ query }: {
         query: UserQueryDto;
     }): Promise<BaseResponse<({
@@ -76,5 +75,6 @@ export declare class UserService implements OnModuleInit {
         dateOfBirth: Date | null;
         laltitude: import("@prisma/client/runtime/library").Decimal | null;
         longitude: import("@prisma/client/runtime/library").Decimal | null;
+        walletBaseId: number;
     })[]>>;
 }

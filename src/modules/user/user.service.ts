@@ -18,6 +18,7 @@ import { throwSuccess } from 'src/common/exceptions/ws_message';
 import { UserQueryDto } from 'src/common/types/paginagation_query.dto';
 import { createAdminFactory } from './factory/create_admin.factory';
 import { OtpService } from '../otp/otp.service';
+import { createFactory } from './factory/create_user.factory';
 
 @Injectable()
 export class UserService implements OnModuleInit {
@@ -26,53 +27,18 @@ export class UserService implements OnModuleInit {
     private readonly crypto: CryptoService,
     private readonly config: ConfigService,
     private readonly mailer: EmailerService,
-    private readonly otp: OtpService,
   ) {}
   onModuleInit() {
     // throw new Error('Method not implemented.');
     createAdminFactory(this.db, this.config, this.crypto);
   }
-
   create(body: UserCreateDto) {
-    console.log(body);
-
-    return this.db.user
-      .create({
-        data: {
-          ...excludeFields(body, ['password']),
-          login: {
-            create: {
-              ...body.login,
-              username: body.email,
-              type: LoginEnum.USER,
-              password: this.crypto.hash(body.password),
-            },
-          },
-        },
-
-        include: { login: true },
-      })
-      .then((val) => {
-        const code = this.crypto.encrypt(
-          `${val.loginId}_${new Date().getTime()}`,
-        );
-        return this.db.otp
-          .create({
-            data: {
-              via: 'MAIL',
-              duration: 'HOUR_12',
-              code: code,
-              loginId: val.loginId,
-            },
-          })
-          .then(() => {
-            return this.mailer.sendUserConfirmation({
-              email: 'djiga2015@gmail.com',
-              token: code,
-            });
-          });
-      })
-      .then(throwSuccess);
+    return createFactory({
+      db: this.db,
+      mailer: this.mailer,
+      crypto: this.crypto,
+      body,
+    }).then(throwSuccess);
   }
   updateById({ body, id }: { body: UserUpdateDto; id: number }) {
     console.log(body);
@@ -103,7 +69,20 @@ export class UserService implements OnModuleInit {
   }
   createUserWithShop({ body }: { body: UserShopCreateDto }) {
     const userDto = excludeFields(body, ['shop']);
-    return;
+    return createFactory({
+      db: this.db,
+      mailer: this.mailer,
+      crypto: this.crypto,
+      body,
+    }).then((val) => {
+      this.db.shop.create({
+        data: {
+          ...body.shop,
+          walletBase: { create: { type: 'SHOP' } },
+          userShop: { create: { userId: val.id, role: 'ADMIN' } },
+        },
+      });
+    });
   }
   getAll({ query }: { query: UserQueryDto }) {
     return this.db.user

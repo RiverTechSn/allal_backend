@@ -10,11 +10,11 @@ let MailerTransportFactory = class MailerTransportFactory {
         this.options = options;
     }
     createTransport(opts) {
-        return nodemailer_1.createTransport(opts || this.options.transport, this.options.defaults);
+        return (0, nodemailer_1.createTransport)(opts || this.options.transport, this.options.defaults);
     }
 };
-MailerTransportFactory = tslib_1.__decorate([
-    tslib_1.__param(0, common_1.Inject(mailer_constant_1.MAILER_OPTIONS)),
+exports.MailerTransportFactory = MailerTransportFactory;
+exports.MailerTransportFactory = MailerTransportFactory = tslib_1.__decorate([
+    tslib_1.__param(0, (0, common_1.Inject)(mailer_constant_1.MAILER_OPTIONS)),
     tslib_1.__metadata("design:paramtypes", [Object])
 ], MailerTransportFactory);
-exports.MailerTransportFactory = MailerTransportFactory;

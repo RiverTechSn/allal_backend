@@ -1,6 +1,6 @@
 import { UserService } from './user.service';
 import { UserQueryDto } from 'src/common/types/paginagation_query.dto';
-import { UserCreateDto, UserUpdateDto } from 'src/common/types/user.dto';
+import { UserCreateDto, UserShopCreateDto, UserUpdateDto } from 'src/common/types/user.dto';
 export declare class UserController {
     private readonly userServide;
     constructor(userServide: UserService);
@@ -34,6 +34,7 @@ export declare class UserController {
         dateOfBirth: Date | null;
         laltitude: import("@prisma/client/runtime/library").Decimal | null;
         longitude: import("@prisma/client/runtime/library").Decimal | null;
+        walletBaseId: number;
     })[]>>;
     getById(id: number): Promise<import("../../cores/base_response").BaseResponse<{
         login: {
@@ -55,7 +56,9 @@ export declare class UserController {
         dateOfBirth: Date | null;
         laltitude: import("@prisma/client/runtime/library").Decimal | null;
         longitude: import("@prisma/client/runtime/library").Decimal | null;
+        walletBaseId: number;
     }>>;
     create(body: UserCreateDto): Promise<never>;
+    createWithShop(body: UserShopCreateDto): Promise<void>;
     updateById(id: number, body: UserUpdateDto): Promise<never>;
 }

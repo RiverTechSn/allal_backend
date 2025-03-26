@@ -1,16 +1,35 @@
 import { Shop } from '@prisma/client';
 import { Decimal } from '@prisma/client/runtime/library';
-import { IsDecimalApi } from '../decorators/valid_number';
+import { IsDecimalApi, IsValidNumberApi } from '../decorators/valid_number';
+import { OmitType } from '@nestjs/swagger/dist/type-helpers/omit-type.helper';
+import { IsValidStringApi } from '../decorators/valid_string';
+import { IsValidDateApi } from '../decorators/valid_date';
 
 export class ShopBaseDto implements Shop {
+  @IsValidStringApi()
+  name: string;
+  @IsValidStringApi()
+  address: string;
+  @IsValidNumberApi()
   id: number;
+  @IsValidDateApi()
   createdAt: Date;
+  @IsValidDateApi()
   updatedAt: Date;
-  
-  entityBaseId: number;
+  @IsValidNumberApi()
+  walletBaseId: number;
   @IsDecimalApi()
   laltitude: Decimal;
   @IsDecimalApi()
   longitude: Decimal;
+  @IsValidNumberApi()
   byId: number;
 }
+
+export class ShopCreateDto extends OmitType(ShopBaseDto, [
+  'id',
+  'createdAt',
+  'updatedAt',
+  'walletBaseId',
+  'byId',
+] as const) {}

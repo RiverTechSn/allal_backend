@@ -15,7 +15,11 @@ import { ApiTags } from '@nestjs/swagger/dist/decorators/api-use-tags.decorator'
 import { ApiBearerAuth } from '@nestjs/swagger/dist/decorators/api-bearer.decorator';
 import { UserQueryDto } from 'src/common/types/paginagation_query.dto';
 import { ApiNoAuth } from 'src/common/decorators/is_public.meta';
-import { UserCreateDto, UserUpdateDto } from 'src/common/types/user.dto';
+import {
+  UserCreateDto,
+  UserShopCreateDto,
+  UserUpdateDto,
+} from 'src/common/types/user.dto';
 import { ApiController } from 'src/common/decorators/api_controller';
 const Tag: string = 'user';
 @ApiController(Tag)
@@ -35,7 +39,10 @@ export class UserController {
   create(@Body() body: UserCreateDto) {
     return this.userServide.create(body);
   }
-
+  @Post('create-with-shop')
+  createWithShop(@Body() body: UserShopCreateDto) {
+    return this.userServide.createUserWithShop({ body });
+  }
   @Put('id/:id')
   updateById(@Param('id') id: number, @Body() body: UserUpdateDto) {
     return this.userServide.updateById({ id, body });

@@ -22,6 +22,7 @@ export const createAdminFactory = (
           displayname,
           phone,
           address: '',
+          walletBase: { create: { type: 'USER' } },
           login: {
             connectOrCreate: {
               create: {
