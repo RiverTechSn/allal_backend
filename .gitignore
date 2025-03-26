@@ -1,11 +1,11 @@
 # compiled output
 dist
-*/dist
+/dist
 prisma/migrations
 node_modules
 */node_modules
 */build
-.env
+*.env
 .env.development.local
 .env.test.local
 .env.production.local
