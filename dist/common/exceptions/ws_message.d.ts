@@ -10,42 +10,42 @@ export declare const HttpExceptionCode: {
     LOGIN_FAILLURE: {
         code: string;
         status: number;
-        message: string[];
+        message: {};
     };
     SUCCEEDED: {
         code: string;
         status: number;
-        message: string[];
+        message: {};
     };
     POSITIVE_AMOUNT: {
         code: string;
         status: number;
-        message: string[];
+        message: {};
     };
     EXCEL_FILE_NOT_FOUND: {
         code: string;
         status: number;
-        message: string[];
+        message: {};
     };
     FAILLURE: {
         code: string;
         status: number;
-        message: string[];
+        message: {};
     };
     INSUFFISANT_BALANCE: {
         code: string;
         status: number;
-        message: string[];
+        message: {};
     };
     INSUFFISANT_QUANTITY: {
-        code: string[];
+        code: {};
         status: number;
-        message: string[];
+        message: {};
     };
     NOT_FOUND: {
         code: string;
         status: number;
-        message: string[];
+        message: {};
     };
 };
 export declare const WsMessageSuccess: WsMessage;

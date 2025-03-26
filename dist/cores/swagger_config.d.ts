@@ -1,1 +1,1 @@
-export declare const documentFactory: (app: any) => import("@nestjs/swagger").OpenAPIObject;
+export declare const documentFactory: (app: any) => any;

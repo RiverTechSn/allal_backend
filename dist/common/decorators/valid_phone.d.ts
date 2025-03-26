@@ -6,6 +6,6 @@ type Option = {
     region?: CountryCode;
     validationOptions?: ValidationOptions;
 };
-export declare const IsValidPhoneApi: (option?: Option) => <TFunction extends Function, Y>(target: TFunction | object, propertyKey?: string | symbol, descriptor?: TypedPropertyDescriptor<Y>) => void;
-export declare const IsValidPhoneOptionalApi: (option?: Option) => <TFunction extends Function, Y>(target: TFunction | object, propertyKey?: string | symbol, descriptor?: TypedPropertyDescriptor<Y>) => void;
+export declare const IsValidPhoneApi: (option?: Option) => any;
+export declare const IsValidPhoneOptionalApi: (option?: Option) => any;
 export {};

@@ -3,7 +3,7 @@ export declare class PaginationDto {
     perpage: number;
     getPaginationParams(query: PaginationDto): {
         skip: number;
-        take: number;
+        take: any;
     };
 }
 export declare class SearchQueryDto extends PaginationDto {
@@ -21,5 +21,5 @@ export declare class CustomerQueryDto extends PaginationDto {
 }
 export declare const getPaginationParams: (query: PaginationDto) => {
     skip: number;
-    take: number;
+    take: any;
 };

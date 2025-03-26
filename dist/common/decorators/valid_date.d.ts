@@ -5,6 +5,6 @@ type Option = {
     dateOptions?: validator.IsISO8601Options;
     validationOptions?: ValidationOptions;
 };
-export declare const IsValidDateApi: (option?: Option) => <TFunction extends Function, Y>(target: TFunction | object, propertyKey?: string | symbol, descriptor?: TypedPropertyDescriptor<Y>) => void;
-export declare const IsValidDateOptionalApi: (option?: Option) => <TFunction extends Function, Y>(target: TFunction | object, propertyKey?: string | symbol, descriptor?: TypedPropertyDescriptor<Y>) => void;
+export declare const IsValidDateApi: (option?: Option) => any;
+export declare const IsValidDateOptionalApi: (option?: Option) => any;
 export {};

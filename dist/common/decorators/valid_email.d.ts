@@ -5,6 +5,6 @@ type Option = {
     emailOptions?: validator.IsEmailOptions;
     validationOptions?: ValidationOptions;
 };
-export declare const IsValidEmailApi: (option?: Option) => <TFunction extends Function, Y>(target: TFunction | object, propertyKey?: string | symbol, descriptor?: TypedPropertyDescriptor<Y>) => void;
-export declare const IsValidEmailOptionalApi: (option?: Option) => <TFunction extends Function, Y>(target: TFunction | object, propertyKey?: string | symbol, descriptor?: TypedPropertyDescriptor<Y>) => void;
+export declare const IsValidEmailApi: (option?: Option) => any;
+export declare const IsValidEmailOptionalApi: (option?: Option) => any;
 export {};

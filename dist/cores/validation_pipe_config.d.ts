@@ -1,2 +1,1 @@
-import { ValidationPipe } from '@nestjs/common/pipes/validation.pipe';
-export declare const validationConfig: ValidationPipe;
+export declare const validationConfig: any;

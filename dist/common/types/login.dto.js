@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LoginUpdateDto = exports.LoginDto = void 0;
 const client_1 = require("@prisma/client");
@@ -28,7 +29,7 @@ __decorate([
 ], LoginDto.prototype, "password", void 0);
 __decorate([
     (0, valid_enum_1.IsValidEnumApi)(Object.values(client_1.$Enums.LoginEnum)),
-    __metadata("design:type", String)
+    __metadata("design:type", typeof (_a = typeof client_1.$Enums !== "undefined" && client_1.$Enums.LoginEnum) === "function" ? _a : Object)
 ], LoginDto.prototype, "type", void 0);
 class LoginUpdateDto {
 }

@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var _a, _b, _c, _d;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ShopCreateDto = exports.ShopBaseDto = void 0;
 const library_1 = require("@prisma/client/runtime/library");
@@ -32,11 +33,11 @@ __decorate([
 ], ShopBaseDto.prototype, "id", void 0);
 __decorate([
     (0, valid_date_1.IsValidDateApi)(),
-    __metadata("design:type", Date)
+    __metadata("design:type", typeof (_a = typeof Date !== "undefined" && Date) === "function" ? _a : Object)
 ], ShopBaseDto.prototype, "createdAt", void 0);
 __decorate([
     (0, valid_date_1.IsValidDateApi)(),
-    __metadata("design:type", Date)
+    __metadata("design:type", typeof (_b = typeof Date !== "undefined" && Date) === "function" ? _b : Object)
 ], ShopBaseDto.prototype, "updatedAt", void 0);
 __decorate([
     (0, valid_number_1.IsValidNumberApi)(),
@@ -44,11 +45,11 @@ __decorate([
 ], ShopBaseDto.prototype, "walletBaseId", void 0);
 __decorate([
     (0, valid_number_1.IsDecimalApi)(),
-    __metadata("design:type", library_1.Decimal)
+    __metadata("design:type", typeof (_c = typeof library_1.Decimal !== "undefined" && library_1.Decimal) === "function" ? _c : Object)
 ], ShopBaseDto.prototype, "laltitude", void 0);
 __decorate([
     (0, valid_number_1.IsDecimalApi)(),
-    __metadata("design:type", library_1.Decimal)
+    __metadata("design:type", typeof (_d = typeof library_1.Decimal !== "undefined" && library_1.Decimal) === "function" ? _d : Object)
 ], ShopBaseDto.prototype, "longitude", void 0);
 __decorate([
     (0, valid_number_1.IsValidNumberApi)(),

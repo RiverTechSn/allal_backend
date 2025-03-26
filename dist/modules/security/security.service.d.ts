@@ -10,5 +10,5 @@ export declare class SecurityService {
     private readonly jwtService;
     constructor(db: DatabaseService, crypto: CryptoService, jwtService: JwtService);
     profile(body: any): BaseResponse<any>;
-    sigin(body: LoginDto, res: Response): Promise<Response<any, Record<string, any>>>;
+    sigin(body: LoginDto, res: Response): any;
 }

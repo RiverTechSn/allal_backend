@@ -11,7 +11,7 @@ export declare class ShopBaseDto implements Shop {
     longitude: Decimal;
     byId: number;
 }
-declare const ShopCreateDto_base: import("@nestjs/common").Type<Omit<ShopBaseDto, "id" | "createdAt" | "updatedAt" | "walletBaseId" | "byId">>;
+declare const ShopCreateDto_base: any;
 export declare class ShopCreateDto extends ShopCreateDto_base {
 }
 export {};

@@ -1,14 +1,14 @@
 export declare class CryptoService {
     generateKey(): {
-        publicKeyPem: string | Buffer<ArrayBufferLike>;
-        privateKeyPem: string | Buffer<ArrayBufferLike>;
+        publicKeyPem: any;
+        privateKeyPem: any;
     };
     hash(text: string): string;
     verifiy(text: any, hashedText: any): boolean;
     createKey(): {
-        key: string;
-        iv: string;
+        key: any;
+        iv: any;
     };
-    encrypt(text: any): string;
-    decrypt(encryptedText: any): string;
+    encrypt(text: any): any;
+    decrypt(encryptedText: any): any;
 }

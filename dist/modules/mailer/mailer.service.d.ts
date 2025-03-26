@@ -7,17 +7,17 @@ export declare class EmailerService {
     senOtp({ to, message }: {
         to: string;
         message: string;
-    }): Promise<string>;
+    }): unknown;
     sendMessage({ to, message }: {
         to: string;
         message: string;
-    }): Promise<string> | Promise<Response>;
+    }): any;
     sendUserConfirmation({ email, token }: {
         email: string;
         token: string;
-    }): Promise<void>;
+    }): unknown;
     sendCustomerValidation({ email, token }: {
         email: string;
         token: string;
-    }): Promise<void>;
+    }): unknown;
 }

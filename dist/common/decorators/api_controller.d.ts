@@ -1,1 +1,1 @@
-export declare const ApiController: (tag: string) => <TFunction extends Function, Y>(target: TFunction | object, propertyKey?: string | symbol, descriptor?: TypedPropertyDescriptor<Y>) => void;
+export declare const ApiController: (tag: string) => any;

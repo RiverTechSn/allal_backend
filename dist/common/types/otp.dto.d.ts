@@ -9,7 +9,7 @@ export declare class OtpBaseDto implements Otp {
     updatedAt: Date;
     loginId: number;
 }
-declare const OtpCreateDto_base: import("@nestjs/common").Type<Omit<OtpBaseDto, "id" | "createdAt" | "updatedAt">>;
+declare const OtpCreateDto_base: any;
 export declare class OtpCreateDto extends OtpCreateDto_base {
 }
 export {};

@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var _a, _b, _c;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserUpdateDto = exports.UserShopCreateDto = exports.UserCreateDto = exports.UserBase = void 0;
 const library_1 = require("@prisma/client/runtime/library");
@@ -41,15 +42,15 @@ __decorate([
 ], UserBase.prototype, "phone", void 0);
 __decorate([
     (0, valid_date_1.IsValidDateOptionalApi)(),
-    __metadata("design:type", Date)
+    __metadata("design:type", typeof (_a = typeof Date !== "undefined" && Date) === "function" ? _a : Object)
 ], UserBase.prototype, "dateOfBirth", void 0);
 __decorate([
     (0, valid_number_1.IsValidNumberOptionnalApi)({ apiPropertyOptions: { type: Number } }),
-    __metadata("design:type", library_1.Decimal)
+    __metadata("design:type", typeof (_b = typeof library_1.Decimal !== "undefined" && library_1.Decimal) === "function" ? _b : Object)
 ], UserBase.prototype, "laltitude", void 0);
 __decorate([
     (0, valid_number_1.IsValidNumberOptionnalApi)({ apiPropertyOptions: { type: Number } }),
-    __metadata("design:type", library_1.Decimal)
+    __metadata("design:type", typeof (_c = typeof library_1.Decimal !== "undefined" && library_1.Decimal) === "function" ? _c : Object)
 ], UserBase.prototype, "longitude", void 0);
 class UserCreateDto extends (0, omit_type_helper_1.OmitType)(UserBase, [
     'id',

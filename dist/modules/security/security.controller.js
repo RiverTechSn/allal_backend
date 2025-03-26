@@ -11,12 +11,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
+var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SecurityController = void 0;
 const security_service_1 = require("./security.service");
 const request_mapping_decorator_1 = require("@nestjs/common/decorators/http/request-mapping.decorator");
 const route_params_decorator_1 = require("@nestjs/common/decorators/http/route-params.decorator");
 const api_bearer_decorator_1 = require("@nestjs/swagger/dist/decorators/api-bearer.decorator");
+const express_1 = require("express");
 const is_public_meta_1 = require("../../common/decorators/is_public.meta");
 const api_controller_1 = require("../../common/decorators/api_controller");
 const login_dto_1 = require("../../common/types/login.dto");
@@ -47,7 +49,7 @@ __decorate([
     __param(0, (0, route_params_decorator_1.Body)()),
     __param(1, (0, route_params_decorator_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [login_dto_1.LoginDto, Object]),
+    __metadata("design:paramtypes", [login_dto_1.LoginDto, typeof (_a = typeof express_1.Response !== "undefined" && express_1.Response) === "function" ? _a : Object]),
     __metadata("design:returntype", void 0)
 ], SecurityController.prototype, "signup", null);
 __decorate([

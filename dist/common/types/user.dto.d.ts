@@ -14,7 +14,7 @@ export declare class UserBase implements User {
     laltitude: Decimal;
     longitude: Decimal;
 }
-declare const UserCreateDto_base: import("@nestjs/common").Type<Omit<UserBase, "id" | "loginId" | "walletBaseId">>;
+declare const UserCreateDto_base: any;
 export declare class UserCreateDto extends UserCreateDto_base {
     password: string;
     login?: LoginUpdateDto;
@@ -22,7 +22,7 @@ export declare class UserCreateDto extends UserCreateDto_base {
 export declare class UserShopCreateDto extends UserCreateDto {
     shop: ShopCreateDto;
 }
-declare const UserUpdateDto_base: import("@nestjs/common").Type<Partial<Omit<UserBase, "id" | "loginId" | "walletBaseId">>>;
+declare const UserUpdateDto_base: any;
 export declare class UserUpdateDto extends UserUpdateDto_base {
     displayname: string;
     phone: string;

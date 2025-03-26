@@ -6,8 +6,8 @@ type Option = {
     isNumberOptions?: IsNumberOptions;
     validationOptions?: ValidationOptions;
 };
-export declare const IsValidNumberApi: (option?: Option) => <TFunction extends Function, Y>(target: TFunction | object, propertyKey?: string | symbol, descriptor?: TypedPropertyDescriptor<Y>) => void;
-export declare const IsValidNumberOptionnalApi: (option?: Option) => <TFunction extends Function, Y>(target: TFunction | object, propertyKey?: string | symbol, descriptor?: TypedPropertyDescriptor<Y>) => void;
-export declare const IsDecimalApi: () => <TFunction extends Function, Y>(target: TFunction | object, propertyKey?: string | symbol, descriptor?: TypedPropertyDescriptor<Y>) => void;
-export declare const IsValidNumberOptionnalArrayApi: (option?: Option) => <TFunction extends Function, Y>(target: TFunction | object, propertyKey?: string | symbol, descriptor?: TypedPropertyDescriptor<Y>) => void;
+export declare const IsValidNumberApi: (option?: Option) => any;
+export declare const IsValidNumberOptionnalApi: (option?: Option) => any;
+export declare const IsDecimalApi: () => any;
+export declare const IsValidNumberOptionnalArrayApi: (option?: Option) => any;
 export {};

@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
 const database_service_1 = require("../database/database.service");
@@ -100,8 +101,6 @@ exports.UserService = UserService;
 exports.UserService = UserService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [database_service_1.DatabaseService,
-        crypto_service_1.CryptoService,
-        config_1.ConfigService,
-        mailer_service_1.EmailerService])
+        crypto_service_1.CryptoService, typeof (_a = typeof config_1.ConfigService !== "undefined" && config_1.ConfigService) === "function" ? _a : Object, mailer_service_1.EmailerService])
 ], UserService);
 //# sourceMappingURL=user.service.js.map

@@ -11,6 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
+var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SecurityService = void 0;
 const injectable_decorator_1 = require("@nestjs/common/decorators/core/injectable.decorator");
@@ -66,7 +67,6 @@ exports.SecurityService = SecurityService;
 exports.SecurityService = SecurityService = __decorate([
     __param(2, (0, inject_decorator_1.Inject)(jwt_1.JwtService)),
     __metadata("design:paramtypes", [database_service_1.DatabaseService,
-        crypto_service_1.CryptoService,
-        jwt_1.JwtService])
+        crypto_service_1.CryptoService, typeof (_a = typeof jwt_1.JwtService !== "undefined" && jwt_1.JwtService) === "function" ? _a : Object])
 ], SecurityService);
 //# sourceMappingURL=security.service.js.map

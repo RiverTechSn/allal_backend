@@ -4,6 +4,6 @@ type Option = {
     apiPropertyOptions?: ApiPropertyOptions;
     validationOptions?: ValidationOptions;
 };
-export declare const IsValidBooleanApi: (option?: Option) => <TFunction extends Function, Y>(target: TFunction | object, propertyKey?: string | symbol, descriptor?: TypedPropertyDescriptor<Y>) => void;
-export declare const IsValidBooleanOptionalApi: (option?: Option) => <TFunction extends Function, Y>(target: TFunction | object, propertyKey?: string | symbol, descriptor?: TypedPropertyDescriptor<Y>) => void;
+export declare const IsValidBooleanApi: (option?: Option) => any;
+export declare const IsValidBooleanOptionalApi: (option?: Option) => any;
 export {};
