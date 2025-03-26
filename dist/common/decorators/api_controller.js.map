@@ -1,1 +1,0 @@
-{"version":3,"file":"api_controller.js","sourceRoot":"","sources":["../../../src/common/decorators/api_controller.ts"],"names":[],"mappings":";;;AACA,sFAAkF;AAClF,8FAAiF;AACjF,6CAAyD;AAGlD,MAAM,aAAa,GAAG,CAAC,GAAW,EAAE,EAAE;IAC3C,OAAO,IAAA,kCAAe,EACpB,IAAA,iCAAU,EAAC,GAAG,CAAC,EACf,IAAA,iBAAO,EAAC,GAAG,CAAC,EACZ,IAAA,uBAAa,GAAE,CAChB,CAAC;AACJ,CAAC,CAAC;AANW,QAAA,aAAa,iBAMxB"}

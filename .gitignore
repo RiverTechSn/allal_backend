@@ -1,6 +1,7 @@
 # compiled output
 dist
 */dist
+prisma/migrations
 node_modules
 */node_modules
 */build
