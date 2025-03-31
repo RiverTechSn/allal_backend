@@ -5,7 +5,10 @@ import { ArgumentsHost } from '@nestjs/common/interfaces/features/arguments-host
 import { BadRequestException } from '@nestjs/common/exceptions/bad-request.exception';
 import { ExceptionFilter } from '@nestjs/common/interfaces/exceptions/exception-filter.interface';
 import { Catch } from '@nestjs/common/decorators/core/catch.decorator';
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
+import {
+  PrismaClientKnownRequestError,
+  PrismaClientValidationError,
+} from '@prisma/client/runtime/library';
 import { UnauthorizedException } from '@nestjs/common/exceptions/unauthorized.exception';
 
 @Catch()
@@ -35,7 +38,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
         code: code,
         message: (exception.getResponse() as unknown as { messages: any })
           .messages,
-        status: false,
+        status: 400,
         timestamp: new Date().toISOString(),
         path: request.url,
       });
@@ -46,11 +49,25 @@ export class HttpExceptionFilter implements ExceptionFilter {
         timestamp: new Date().toISOString(),
         path: request.url,
       });
+    } else if (exception instanceof PrismaClientValidationError) {
+      const err = exception as PrismaClientValidationError;
+      console.log(err.name);
+      status = 404;
+      code = 'NOT_FOUND';
+      const message = [err.name + ':' + err.message.split('\n').pop()];
+      response.status(status).json({
+        code: code,
+        message: [message],
+        status: false,
+        timestamp: new Date().toISOString(),
+        path: request.url,
+      });
     } else if (
       exception instanceof PrismaClientKnownRequestError ||
       exception.meta
     ) {
       console.log((exception as PrismaClientKnownRequestError).code);
+      console.timeLog('===============Now prisma request=============');
       const message =
         exception.meta.modelName +
         ' : ' +

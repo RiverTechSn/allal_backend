@@ -66,10 +66,10 @@ model User {
 
 // TODO:CUSTOMER
 model Customer {
-  id      Int    @id @default(autoincrement())
-  Login   Login? @relation(name: "CustomerToLogin", fields: [loginId], references: [id])
-  loginId Int?   @unique
-
+  id            Int             @id @default(autoincrement())
+  Login         Login?          @relation(name: "CustomerToLogin", fields: [loginId], references: [id])
+  loginId       Int?            @unique
+  displayname   String
   address       String?
   phone         String          @unique
   laltitude     Decimal?
@@ -85,17 +85,18 @@ model Customer {
 
 // TODO:CUSTOMER_ALIAS annuaire (peuvent etre creer a partir du repertoire de l utilisateur )
 model CustomerAlias {
-  id         Int          @id @default(autoincrement())
-  shop       Shop         @relation(name: "CustomerAliasToShop", fields: [shopId], references: [id])
-  customer   Customer     @relation(name: "CustomerToCustomerAlias", fields: [customerId], references: [id])
-  customerId Int
-  createdAt  DateTime?    @default(now())
-  updatedAt  DateTime?    @updatedAt
-  byId       Int?
-  shopId     Int
-  isActive   Boolean      @default(true)
-  dept       Dept[]       @relation(name: "CustomerAliasToDept")
-  debtStatus DebtStatus[] @relation(name: "CustomerAliasToDeptStatus")
+  id          Int          @id @default(autoincrement())
+  displayname String
+  shop        Shop         @relation(name: "CustomerAliasToShop", fields: [shopId], references: [id])
+  customer    Customer     @relation(name: "CustomerToCustomerAlias", fields: [customerId], references: [id])
+  customerId  Int
+  createdAt   DateTime?    @default(now())
+  updatedAt   DateTime?    @updatedAt
+  byId        Int?
+  shopId      Int
+  isActive    Boolean      @default(true)
+  dept        Dept[]       @relation(name: "CustomerAliasToDept")
+  debtStatus  DebtStatus[] @relation(name: "CustomerAliasToDeptStatus")
 
   @@map("customer_alias")
 }

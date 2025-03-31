@@ -7,9 +7,18 @@ import { VersioningType } from '@nestjs/common/enums/version-type.enum';
 import { SwaggerModule } from '@nestjs/swagger/dist/swagger-module';
 import { documentFactory } from './cores/swagger_config';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { ConsoleLogger, Logger } from '@nestjs/common';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger: new ConsoleLogger({
+      colors: true,
+      json: true,
+      compact: false,
+      timestamp: true,
+      
+    }),
+  });
   app.useGlobalPipes(validationConfig);
   app.useGlobalFilters(new HttpExceptionFilter());
   app.use(cookieParser());

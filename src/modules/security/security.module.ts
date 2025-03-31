@@ -8,6 +8,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './auth.guard';
 import { JwtModule } from '@nestjs/jwt/dist/jwt.module';
 import { SecurityController } from './security.controller';
+import { LoginTypeGuard } from './login_type.guard';
 
 @Module({
   imports: [
@@ -20,7 +21,7 @@ import { SecurityController } from './security.controller';
         global: true,
         privateKey: config.getOrThrow('JWT_SECRET'),
         publicKey: config.getOrThrow('JWT_SECRET'),
-        signOptions: { expiresIn: '3600s', },
+        signOptions: { expiresIn: '3600s' },
       }),
     }),
   ],
@@ -29,6 +30,10 @@ import { SecurityController } from './security.controller';
     SecurityService,
     JwtStrategy,
     { provide: APP_GUARD, useClass: JwtAuthGuard },
+    {
+      provide: APP_GUARD,
+      useClass: LoginTypeGuard,
+    },
   ],
   exports: [JwtStrategy],
 })

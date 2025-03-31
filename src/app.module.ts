@@ -9,6 +9,8 @@ import { ConfigService } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { EmailerModule } from './modules/mailer/mailer.module';
 import { OtpModule } from './modules/otp/otp.module';
+import { CustomerAliasModule } from './modules/customer_alias/customer_alias.module';
+import { RoleModule } from './modules/role/role.module';
 
 @Module({
   imports: [
@@ -20,7 +22,9 @@ import { OtpModule } from './modules/otp/otp.module';
     EmailerModule,
     SecurityModule,
     UserModule,
+    RoleModule,
     OtpModule,
+    CustomerAliasModule,
   ],
   controllers: [AppController],
   providers: [AppService],

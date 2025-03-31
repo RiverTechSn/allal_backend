@@ -15,7 +15,7 @@ export class WsMessage extends HttpException {
         message,
         code,
         // sessionExpired: status === 401 ? true : false,
-        status: status === 200,
+        status: status,
       },
       status,
     );
@@ -56,7 +56,7 @@ export const HttpExceptionCode = {
     message: ['Solde insufficasant'],
   },
   INSUFFISANT_QUANTITY: {
-    code: ['FAILLURE'],
+    code: 'FAILLURE',
     status: 400,
     message: ['Insuffisant quantity'],
   },
@@ -65,11 +65,17 @@ export const HttpExceptionCode = {
     status: 404,
     message: ['Entity not found'],
   },
+  BAD_REQUEST: {
+    code: 'BAD_REQUEST',
+    status: 400,
+
+    message: ['Entity not found'],
+  },
 };
 
 export const WsMessageSuccess = new WsMessage(HttpExceptionCode.SUCCEEDED);
 export const WsMessageNotFound = new WsMessage(HttpExceptionCode.NOT_FOUND);
 export const throwSuccess = (val) => {
-  console.log(val)
+  console.log(val);
   throw WsMessageSuccess;
 };

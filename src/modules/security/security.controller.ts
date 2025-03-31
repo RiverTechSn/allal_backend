@@ -19,32 +19,32 @@ import { ApiNoAuth } from 'src/common/decorators/is_public.meta';
 import { ApiController } from 'src/common/decorators/api_controller';
 import { LoginDto } from 'src/common/types/login.dto';
 import { CurrentUser } from 'src/common/decorators/current_user';
+import { ApiGet, ApiPost, ApiPut } from 'src/common/decorators/api_param';
 
 const TAG = 'security';
 @ApiController(TAG)
 export class SecurityController {
   constructor(private readonly service: SecurityService) {}
-  @Post('signin')
+  @ApiPost('signin', { secure: false })
   @ApiNoAuth()
   signup(@Body() body: LoginDto, @Res() res: Response) {
     // TODO document why this method 'signup' is empty
     console.log(body);
     return this.service.sigin(body, res);
   }
-  @Put('reset-password')
+  @ApiPut('reset-password', { secure: false })
   resetPassword() {
     // TODO document why this method 'resetPassword' is empty
   }
-  @Put('define-password')
+  @ApiPut('define-password', { secure: false })
   definePassword() {
     // TODO document why this method 'resetPassword' is empty
   }
-  @Post('forget-password')
+  @ApiPost('forget-password', { secure: false })
   forgetPassword() {
     // TODO document why this method 'forgetPassword' is empty
   }
-  @Get('profile')
-  @ApiBearerAuth()
+  @ApiGet('profile')
   profile(@CurrentUser() user) {
     // TODO document why this method 'profile' is empty
     return this.service.profile(user);

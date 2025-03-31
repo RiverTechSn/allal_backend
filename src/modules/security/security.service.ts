@@ -33,6 +33,7 @@ export class SecurityService {
         include: {
           user: body.type === 'USER',
           customer: body.type === 'CUSTOMER',
+          
         },
       })
       .then((val) => {

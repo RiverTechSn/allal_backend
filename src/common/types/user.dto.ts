@@ -5,18 +5,25 @@ import {
   IsValidStringOptionalApi,
 } from '../decorators/valid_string';
 import { IsValidDateOptionalApi } from '../decorators/valid_date';
-import { IsValidNumberOptionnalApi } from '../decorators/valid_number';
+import {
+  IsValidNumberApi,
+  IsValidNumberOptionnalApi,
+} from '../decorators/valid_number';
 import { IsValidPhoneOptionalApi } from '../decorators/valid_phone';
 import { IsAllowOptionalApi } from '../decorators/allow';
 import { LoginUpdateDto } from './login.dto';
 import { PartialType } from '@nestjs/swagger/dist/type-helpers/partial-type.helper';
 import { OmitType } from '@nestjs/swagger/dist/type-helpers/omit-type.helper';
 import { ShopBaseDto, ShopCreateDto } from './shop.dto';
+import { PaginationResponseDto } from './pagination_response.dto';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class UserBase implements User {
-  walletBaseId: number;
+  @IsValidNumberApi()
   id: number;
-
+  @IsValidNumberApi()
+  walletBaseId: number;
+  @IsValidNumberApi()
   loginId: number;
   @IsValidStringApi()
   displayname: string;
@@ -32,6 +39,10 @@ export class UserBase implements User {
   laltitude: Decimal;
   @IsValidNumberOptionnalApi({ apiPropertyOptions: { type: Number } })
   longitude: Decimal;
+}
+export class UserPaginationResponseDto extends PaginationResponseDto {
+  @ApiProperty({ type: [UserBase] })
+  result: [UserBase];
 }
 export class UserCreateDto extends OmitType(UserBase, [
   'id',
