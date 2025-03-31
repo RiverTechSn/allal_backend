@@ -2,15 +2,15 @@ import { IsValidStringOptionalApi } from '../decorators/valid_string';
 import { IsValidStringNumberApi } from '../decorators/valid_string_number';
 
 export class PaginationQueryDto {
-  @IsValidStringNumberApi()
+  @IsValidStringNumberApi({ apiPropertyOptions: { default: 1 } })
   page: number;
-  @IsValidStringNumberApi()
+  @IsValidStringNumberApi({ apiPropertyOptions: { default: 20 } })
   perpage: number;
 
-  getPaginationParams(query: PaginationQueryDto) {
+  getPaginationParams() {
     return {
-      skip: (Number(query.page) - 1) * Number(query.perpage),
-      take: Number(query.perpage),
+      skip: (Number(this.page) - 1) * Number(this.perpage),
+      take: Number(this.perpage),
     };
   }
 }
@@ -25,7 +25,7 @@ export class UserQueryDto extends PaginationQueryDto {
   @IsValidStringOptionalApi({ apiPropertyOptions: { required: false } })
   phone: string;
   @IsValidStringOptionalApi({ apiPropertyOptions: { required: false } })
-  username: string;
+  email: string;
 }
 export class CustomerQueryDto extends PaginationQueryDto {
   @IsValidStringOptionalApi({ apiPropertyOptions: { required: false } })

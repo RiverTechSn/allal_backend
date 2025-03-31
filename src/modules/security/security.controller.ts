@@ -25,12 +25,21 @@ const TAG = 'security';
 @ApiController(TAG)
 export class SecurityController {
   constructor(private readonly service: SecurityService) {}
+  @ApiGet('profile')
+  profile(@CurrentUser() user) {
+    // TODO document why this method 'profile' is empty
+    return this.service.profile(user);
+  }
   @ApiPost('signin', { secure: false })
   @ApiNoAuth()
   signup(@Body() body: LoginDto, @Res() res: Response) {
     // TODO document why this method 'signup' is empty
     console.log(body);
     return this.service.sigin(body, res);
+  }
+  @ApiPost('forget-password', { secure: false })
+  forgetPassword() {
+    // TODO document why this method 'forgetPassword' is empty
   }
   @ApiPut('reset-password', { secure: false })
   resetPassword() {
@@ -39,14 +48,5 @@ export class SecurityController {
   @ApiPut('define-password', { secure: false })
   definePassword() {
     // TODO document why this method 'resetPassword' is empty
-  }
-  @ApiPost('forget-password', { secure: false })
-  forgetPassword() {
-    // TODO document why this method 'forgetPassword' is empty
-  }
-  @ApiGet('profile')
-  profile(@CurrentUser() user) {
-    // TODO document why this method 'profile' is empty
-    return this.service.profile(user);
   }
 }

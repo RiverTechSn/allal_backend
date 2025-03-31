@@ -9,6 +9,7 @@ import {
   IsOptional,
   ValidationOptions,
 } from 'class-validator';
+import { getOptionalOption } from './getOption';
 type Option = {
   apiPropertyOptions?: ApiPropertyOptions;
   isNumericOptions?: validator.IsNumericOptions;
@@ -23,7 +24,7 @@ export const IsValidStringNumberApi = (option?: Option) => {
 
 export const IsValidStringNumberOptionalApi = (option?: Option) => {
   return applyDecorators(
-    IsValidStringNumberApi(option),
+    IsValidStringNumberApi(getOptionalOption(option)),
     IsOptional(option?.validationOptions),
   );
 };

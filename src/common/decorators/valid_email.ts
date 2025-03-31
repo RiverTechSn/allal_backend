@@ -3,6 +3,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import { IsEmail, IsOptional, IsPhoneNumber, ValidationOptions } from "class-validator";
 import { ApiPropertyOptions } from '@nestjs/swagger/dist/decorators';
 import { CountryCode } from "libphonenumber-js/types.cjs";
+import { getOptionalOption } from "./getOption";
 type Option ={
 apiPropertyOptions?:ApiPropertyOptions,
 emailOptions?: validator.IsEmailOptions, 
@@ -17,7 +18,7 @@ export const  IsValidEmailApi=(option?:Option)=> {
 
   export const  IsValidEmailOptionalApi=(option?:Option)=> {
     return applyDecorators(
-        IsValidEmailApi(option),
+        IsValidEmailApi(getOptionalOption(option)),
         IsOptional()
     );
   }

@@ -60,8 +60,8 @@ export class CryptoService {
     };
   }
   encrypt(text) {
-    const key = Buffer.from(process.env.SECRET_KEY, 'hex');
-    const iv = Buffer.from(process.env.SECRET_IV, 'hex');
+    const key = Buffer.from(process.env.CRYPTO_KEY, 'hex');
+    const iv = Buffer.from(process.env.CRYPTO_IV, 'hex');
     // Génère un vecteur d'initialisation aléatoire
     const cipher = crypto.createCipheriv(algorithm2, key, iv);
     let encrypted = cipher.update(text, 'utf8', 'hex');
@@ -72,8 +72,8 @@ export class CryptoService {
 
   // Fonction pour déchiffrer un texte
   decrypt(encryptedText) {
-    const iv = Buffer.from(process.env.SECRET_IV, 'hex');
-    const key = Buffer.from(process.env.SECRET_KEY, 'hex');
+    const iv = Buffer.from(process.env.CRYPTO_IV, 'hex');
+    const key = Buffer.from(process.env.CRYPTO_KEY, 'hex');
     const decipher = crypto.createDecipheriv(algorithm2, key, iv);
     let decrypted = decipher.update(encryptedText, 'hex', 'utf8');
     decrypted += decipher.final('utf8');

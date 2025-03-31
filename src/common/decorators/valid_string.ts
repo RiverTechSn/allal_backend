@@ -9,7 +9,7 @@ import {
   IsString,
   ValidationOptions,
 } from 'class-validator';
-import { ValidationOption } from './getOption';
+import { getOptionalOption, ValidationOption } from './getOption';
 
 export const IsValidStringApi = (option?: ValidationOption) => {
   return applyDecorators(
@@ -20,7 +20,7 @@ export const IsValidStringApi = (option?: ValidationOption) => {
 
 export const IsValidStringOptionalApi = (option?: ValidationOption) => {
   return applyDecorators(
-    IsValidStringApi(option),
+    IsValidStringApi(getOptionalOption(option)),
     IsOptional(option?.validationOptions),
   );
 };

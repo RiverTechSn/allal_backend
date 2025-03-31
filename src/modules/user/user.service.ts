@@ -73,7 +73,7 @@ export class UserService implements OnModuleInit {
       db: this.db,
       mailer: this.mailer,
       crypto: this.crypto,
-      body,
+      body: userDto,
     }).then((val) => {
       this.db.shop.create({
         data: {
@@ -85,6 +85,11 @@ export class UserService implements OnModuleInit {
     });
   }
   getAll({ query }: { query: UserQueryDto }) {
+    const whereClause = {
+      displayname: { contains: query.displayname ?? '' },
+      phone: { contains: query.phone ?? '' },
+      email: { contains: query.email ?? '' },
+    };
     return this.db.user
       .findMany({
         include: {
@@ -93,8 +98,15 @@ export class UserService implements OnModuleInit {
             omit: { password: true, username: true },
           },
         },
-        where: {},
+        where: whereClause,
+        ...query.getPaginationParams(),
       })
-      .then((val) => BaseResponse.successWithPagination(val, 1, query.perpage));
+      .then(async (val) =>
+        BaseResponse.successWithPagination(
+          val,
+          await this.db.user.count({ where: whereClause }),
+          query.perpage,
+        ),
+      );
   }
 }

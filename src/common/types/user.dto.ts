@@ -44,6 +44,10 @@ export class UserPaginationResponseDto extends PaginationResponseDto {
   @ApiProperty({ type: [UserBase] })
   result: [UserBase];
 }
+export class UserResponseDto extends PaginationResponseDto {
+  @ApiProperty({ type: UserBase })
+  result: UserBase;
+}
 export class UserCreateDto extends OmitType(UserBase, [
   'id',
   'loginId',

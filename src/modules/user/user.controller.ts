@@ -8,6 +8,7 @@ import { UserQueryDto } from 'src/common/types/paginagation_query.dto';
 import {
   UserCreateDto,
   UserPaginationResponseDto,
+  UserResponseDto,
   UserShopCreateDto,
   UserUpdateDto,
 } from 'src/common/types/user.dto';
@@ -19,13 +20,14 @@ const Tag: string = 'user';
 @ApiController(Tag)
 export class UserController {
   constructor(private readonly userServide: UserService) {}
-  @ApiGet('per-page', { success: false, secure: true })
+  @ApiGet('perpage', { success: false, secure: true })
   @ApiLoginType(['USER'])
   @ApiPaginationResponse(UserPaginationResponseDto)
   getAll(@Query() query: UserQueryDto) {
     return this.userServide.getAll({ query });
   }
   @ApiGet('id/:id')
+  @ApiPaginationResponse(UserResponseDto)
   getById(@Param('id') id: number) {
     return this.userServide.getById(id);
   }

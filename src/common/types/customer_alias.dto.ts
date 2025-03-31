@@ -8,6 +8,9 @@ import {
   IsValidStringApi,
   IsValidStringOptionalApi,
 } from '../decorators/valid_string';
+import { PaginationQueryDto } from './paginagation_query.dto';
+import { ApiProperty } from '@nestjs/swagger';
+import { ResponseDto } from './pagination_response.dto';
 
 export class CustomerAliasBaseDto implements CustomerAlias {
   @IsValidNumberOptionnalApi()
@@ -27,6 +30,15 @@ export class CustomerAliasBaseDto implements CustomerAlias {
   @IsValidNumberOptionnalApi()
   shopId: number;
 }
+
+export class CustomerAliasResponseDto extends ResponseDto {
+  @ApiProperty({ type: CustomerAliasBaseDto })
+  result: CustomerAliasBaseDto;
+}
+export class CustomerAliasPaginationResponseDto extends PaginationQueryDto {
+  @ApiProperty({ type: [CustomerAliasBaseDto] })
+  result: [CustomerAliasBaseDto];
+}
 export class CustomerAliasCreateDto extends OmitType(CustomerAliasBaseDto, [
   'id',
   'createdAt',
@@ -39,4 +51,15 @@ export class CustomerAliasCreateDto extends OmitType(CustomerAliasBaseDto, [
   phone: string;
   @IsValidStringApi()
   displayname: string;
+}
+
+export class CustomerAliasQuery
+  extends PaginationQueryDto
+  implements Partial<CustomerAliasCreateDto>
+{
+  @IsValidStringOptionalApi()
+  phone?: string;
+  isActive: boolean;
+  @IsValidStringOptionalApi()
+  displayname?: string;
 }

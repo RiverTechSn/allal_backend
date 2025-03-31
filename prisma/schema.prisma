@@ -10,19 +10,20 @@ generator client {
 // previewFeatures = ["omitApi"]
 // TODO:LOGIN
 model Login {
-  id        Int       @id @default(autoincrement())
-  type      LoginEnum
-  username  String
-  password  String
-  isActive  Boolean   @default(true)
-  isBlocked Boolean   @default(false)
-  customer  Customer? @relation(name: "CustomerToLogin")
-  role      Role?     @relation(name: "LoginToRole", fields: [roleId], references: [id])
-  roleId    Int?
-  user      User?     @relation(name: "LoginToUser")
-  createdAt DateTime? @default(now())
-  updatedAt DateTime? @updatedAt
-  Otp       Otp[]
+  id         Int       @id @default(autoincrement())
+  type       LoginEnum
+  username   String
+  password   String
+  isActive   Boolean   @default(true)
+  isBlocked  Boolean   @default(false)
+  isArchived Boolean   @default(false)
+  customer   Customer? @relation(name: "CustomerToLogin")
+  role       Role?     @relation(name: "LoginToRole", fields: [roleId], references: [id])
+  roleId     Int?
+  user       User?     @relation(name: "LoginToUser")
+  createdAt  DateTime? @default(now())
+  updatedAt  DateTime? @updatedAt
+  Otp        Otp[]
 
   @@unique([type, username])
   @@index([type])

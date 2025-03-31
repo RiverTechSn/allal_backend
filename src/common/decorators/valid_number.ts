@@ -5,6 +5,7 @@ import {
 } from '@nestjs/swagger/dist/decorators/api-property.decorator';
 import { IsNumber, IsNumberOptions, IsOptional } from 'class-validator';
 import { ValidationOptions } from 'class-validator/types/decorator/ValidationOptions';
+import { getOptionalOption } from './getOption';
 
 type Option = {
   apiPropertyOptions?: ApiPropertyOptions;
@@ -20,8 +21,7 @@ export const IsValidNumberApi = (option?: Option) => {
 
 export const IsValidNumberOptionnalApi = (option?: Option) => {
   return applyDecorators(
-    IsValidNumberApi(option),
-    IsNumber(option?.isNumberOptions, option?.validationOptions),
+    IsValidNumberApi(getOptionalOption(option)),
     IsOptional(),
   );
 };

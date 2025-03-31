@@ -11,6 +11,7 @@ import { EmailerModule } from './modules/mailer/mailer.module';
 import { OtpModule } from './modules/otp/otp.module';
 import { CustomerAliasModule } from './modules/customer_alias/customer_alias.module';
 import { RoleModule } from './modules/role/role.module';
+import { ShopModule } from './modules/shop/shop.module';
 
 @Module({
   imports: [
@@ -21,10 +22,12 @@ import { RoleModule } from './modules/role/role.module';
     DatabaseModule,
     EmailerModule,
     SecurityModule,
-    UserModule,
     RoleModule,
+
+    UserModule,
     OtpModule,
     CustomerAliasModule,
+    ShopModule,
   ],
   controllers: [AppController],
   providers: [AppService],
