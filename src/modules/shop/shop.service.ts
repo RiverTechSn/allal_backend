@@ -1,6 +1,10 @@
 import { Injectable } from '@nestjs/common/decorators/core/injectable.decorator';
 import { DatabaseService } from '../database/database.service';
-import { ShopCreateDto, ShopEditDto, ShopQueryDto } from 'src/common/types/shop.dto';
+import {
+  ShopCreateDto,
+  ShopEditDto,
+  ShopQueryDto,
+} from 'src/common/types/shop.dto';
 import { BaseResponse } from 'src/cores/base_response';
 import { Prisma } from '.prisma/client';
 import { CurrentUserDto } from 'src/common/types/login.dto';
@@ -17,10 +21,7 @@ export class ShopService {
     };
     return this.db.shop
       .findMany({
-        where: {
-          name: { contains: query.name ?? '' },
-          address: { contains: query.address ?? '' },
-        },
+        where: whereClause,
       })
       .then(async (val) =>
         BaseResponse.successWithPagination(
@@ -36,7 +37,7 @@ export class ShopService {
         data: {
           ...body,
         },
-        where:{id}
+        where: { id },
       })
       .then(throwSuccess);
   }

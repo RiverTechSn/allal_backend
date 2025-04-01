@@ -18,7 +18,7 @@ import { ApiPaginationResponse } from 'src/common/decorators/response.decorator'
 @ApiController('shop')
 export class ShopController {
   constructor(private readonly service: ShopService) {}
-  @ApiGet('perpage/all')
+  @ApiGet('perpage')
   @ApiPaginationResponse(ShopPaginationResponseDto)
   perpageAll(@Query() query: ShopQueryDto) {
     return this.service.perpageAll({ query });
@@ -32,7 +32,6 @@ export class ShopController {
   perpageUser(@Query() query: ShopQueryDto, @CurrentUser() by: CurrentUserDto) {
     return this.service.perpageByUser({ query, by });
   }
-
 
   @ApiPut('/:id')
   edit(@Body() body: ShopCreateDto, @Param('id') id: number) {
