@@ -12,6 +12,7 @@ import { OtpModule } from './modules/otp/otp.module';
 import { CustomerAliasModule } from './modules/customer_alias/customer_alias.module';
 import { RoleModule } from './modules/role/role.module';
 import { ShopModule } from './modules/shop/shop.module';
+import { CustomerModule } from './modules/customer/customer.module';
 
 @Module({
   imports: [
@@ -23,8 +24,8 @@ import { ShopModule } from './modules/shop/shop.module';
     EmailerModule,
     SecurityModule,
     RoleModule,
-
     UserModule,
+    CustomerModule,
     OtpModule,
     CustomerAliasModule,
     ShopModule,

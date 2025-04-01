@@ -1,4 +1,5 @@
-import { Module } from '@nestjs/common';
+
+import { Module } from '@nestjs/common/decorators/modules/module.decorator';
 import { CustomerAliasController } from './customer_alias.controller';
 import { CustomerAliasService } from './customer_alias.service';
 

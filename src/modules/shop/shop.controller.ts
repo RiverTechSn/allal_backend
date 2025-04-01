@@ -23,17 +23,18 @@ export class ShopController {
   perpageAll(@Query() query: ShopQueryDto) {
     return this.service.perpageAll({ query });
   }
+  @ApiGet('user/:userId')
+  user(@Body() body: ShopCreateDto, @Param('userId') id: number) {
+    return this.service.editById({ body, id });
+  }
   @ApiGet('perpage')
   @ApiPaginationResponse(ShopPaginationResponseDto)
   perpageUser(@Query() query: ShopQueryDto, @CurrentUser() by: CurrentUserDto) {
     return this.service.perpageByUser({ query, by });
   }
-  @ApiPost('create')
-  create(@Body() body: ShopCreateDto, @CurrentUser() by: CurrentUserDto) {
-    return this.service.create({ body, by });
-  }
 
-  @ApiPut('perpage/:id')
+
+  @ApiPut('/:id')
   edit(@Body() body: ShopCreateDto, @Param('id') id: number) {
     return this.service.editById({ body, id });
   }

@@ -66,8 +66,9 @@ export class HttpExceptionFilter implements ExceptionFilter {
       exception instanceof PrismaClientKnownRequestError ||
       exception.meta
     ) {
-      console.log((exception as PrismaClientKnownRequestError).code);
+      console.log(exception);
       console.timeLog('===============Now prisma request=============');
+
       const message =
         exception.meta.modelName +
         ' : ' +
@@ -77,6 +78,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
         status = 404;
         code = 'NOT_FOUND';
       } else {
+        console.log(exception);
         status = 500;
         code = 'CONSTRAINT_VIOLATION';
       }

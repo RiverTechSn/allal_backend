@@ -30,17 +30,6 @@ export class ShopService {
         ),
       );
   }
-  create({ body, by }: { body: ShopCreateDto; by: CurrentUserDto }) {
-    return this.db.shop
-      .create({
-        data: {
-          ...body,
-          walletBase: { create: { type: 'SHOP' } },
-          userShop: { create: { userId: by.user.id, role: 'OWNER' } },
-        },
-      })
-      .then(throwSuccess);
-  }
   editById({ body, id }: { body: ShopEditDto; id: number }) {
     return this.db.shop
       .update({

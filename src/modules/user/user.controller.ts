@@ -31,14 +31,16 @@ export class UserController {
   getById(@Param('id') id: number) {
     return this.userServide.getById(id);
   }
+  @ApiPost('create-with-shop', {})
+  createWithShop(@Body() body: UserShopCreateDto) {
+    console.log(body);
+    return this.userServide.createUserWithShop({ body });
+  }
   @ApiPost('create')
   create(@Body() body: UserCreateDto) {
     return this.userServide.create(body);
   }
-  @ApiPost('create-with-shop', {})
-  createWithShop(@Body() body: UserShopCreateDto) {
-    return this.userServide.createUserWithShop({ body });
-  }
+
   @ApiPut('id/:id')
   updateById(@Param('id') id: number, @Body() body: UserUpdateDto) {
     return this.userServide.updateById({ id, body });

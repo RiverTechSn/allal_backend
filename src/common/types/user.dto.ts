@@ -14,7 +14,7 @@ import { IsAllowOptionalApi } from '../decorators/allow';
 import { LoginUpdateDto } from './login.dto';
 import { PartialType } from '@nestjs/swagger/dist/type-helpers/partial-type.helper';
 import { OmitType } from '@nestjs/swagger/dist/type-helpers/omit-type.helper';
-import { ShopBaseDto, ShopCreateDto } from './shop.dto';
+import {  ShopCreateDto } from './shop.dto';
 import { PaginationResponseDto } from './pagination_response.dto';
 import { ApiProperty } from '@nestjs/swagger';
 

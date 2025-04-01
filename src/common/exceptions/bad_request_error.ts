@@ -2,6 +2,7 @@ import { BadRequestException } from '@nestjs/common/exceptions/bad-request.excep
 import { ValidationError } from '@nestjs/common/interfaces/external/validation-error.interface';
 
 export const badRequestExceptionCatch = (errors: ValidationError[]) => {
+  console.log(errors)
   const messages = [];
   errors.forEach((error) =>
     Object.entries(error.constraints).forEach((value) => {

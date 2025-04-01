@@ -19,6 +19,7 @@ import { UserQueryDto } from 'src/common/types/paginagation_query.dto';
 import { createAdminFactory } from './factory/create_admin.factory';
 import { OtpService } from '../otp/otp.service';
 import { createFactory } from './factory/create_user.factory';
+import { CLIENT_RENEG_LIMIT } from 'node:tls';
 
 @Injectable()
 export class UserService implements OnModuleInit {
@@ -69,17 +70,22 @@ export class UserService implements OnModuleInit {
   }
   createUserWithShop({ body }: { body: UserShopCreateDto }) {
     const userDto = excludeFields(body, ['shop']);
+    console.log(userDto);
     return createFactory({
       db: this.db,
       mailer: this.mailer,
       crypto: this.crypto,
       body: userDto,
     }).then((val) => {
-      this.db.shop.create({
+      console.log(val);
+      return this.db.shop.create({
         data: {
           ...body.shop,
           walletBase: { create: { type: 'SHOP' } },
-          userShop: { create: { userId: val.id, role: 'ADMIN' } },
+
+          userShop: {
+            create: { user: { connect: { id: val.id } }, role: 'ADMIN' },
+          },
         },
       });
     });

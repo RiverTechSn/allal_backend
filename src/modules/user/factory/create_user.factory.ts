@@ -1,16 +1,22 @@
 import { LoginEnum } from '@prisma/client';
+import { CLIENT_RENEG_LIMIT } from 'node:tls';
 import { UserCreateDto } from 'src/common/types/user.dto';
 import { excludeFields } from 'src/cores/exclude_key';
 import { CryptoService } from 'src/modules/database/crypto_service';
 import { DatabaseService } from 'src/modules/database/database.service';
 import { EmailerService } from 'src/modules/mailer/mailer.service';
 
-export const createFactory = (
- {db , crypto, mailer , body}: {db: DatabaseService,
-  crypto: CryptoService,
-   mailer: EmailerService,
-  body: UserCreateDto,}
-) => {
+export const createFactory = ({
+  db,
+  crypto,
+  mailer,
+  body,
+}: {
+  db: DatabaseService;
+  crypto: CryptoService;
+  mailer: EmailerService;
+  body: UserCreateDto;
+}) => {
   console.log(body);
 
   return db.user
@@ -31,9 +37,8 @@ export const createFactory = (
       include: { login: true },
     })
     .then((user) => {
-      const code = crypto.encrypt(
-        `${user.loginId}_${new Date().getTime()}`,
-      );
+      const code = crypto.encrypt(`${user.loginId}_${new Date().getTime()}`);
+      console.log(code);
       return db.otp
         .create({
           data: {
