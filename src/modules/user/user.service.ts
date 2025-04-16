@@ -1,10 +1,7 @@
-import { LoginEnum } from '@prisma/client';
 import { DatabaseService } from '../database/database.service';
 import { Inject, Injectable } from '@nestjs/common';
-
 import { OnModuleInit } from '@nestjs/common/interfaces/hooks';
 import { ConfigService } from '@nestjs/config';
-
 import { EmailerService } from '../mailer/mailer.service';
 import { CryptoService } from '../database/crypto_service';
 import { excludeFields } from 'src/cores/exclude_key';
@@ -17,7 +14,6 @@ import {
 import { throwSuccess } from 'src/common/exceptions/ws_message';
 import { UserQueryDto } from 'src/common/types/paginagation_query.dto';
 import { createAdminFactory } from './factory/create_admin.factory';
-import { OtpService } from '../otp/otp.service';
 import { createFactory } from './factory/create_user.factory';
 import { CLIENT_RENEG_LIMIT } from 'node:tls';
 
@@ -47,7 +43,8 @@ export class UserService implements OnModuleInit {
       .update({
         where: { loginId: id },
         data: {
-          ...excludeFields(body, ['login']),
+          ...excludeFields(body, ['login', 'shopId']),
+          ...(body.shopId && { shop: { connect: { id: body.shopId } } }),
           login: {
             update: {
               data: { ...body.login },
@@ -78,16 +75,18 @@ export class UserService implements OnModuleInit {
       body: userDto,
     }).then((val) => {
       console.log(val);
-      return this.db.shop.create({
-        data: {
-          ...body.shop,
-          walletBase: { create: { type: 'SHOP' } },
+      return this.db.shop
+        .create({
+          data: {
+            ...body.shop,
+            walletBase: { create: { type: 'SHOP' } },
 
-          userShop: {
-            create: { user: { connect: { id: val.id } }, role: 'ADMIN' },
+            user: {
+              connect: { id: val.id },
+            },
           },
-        },
-      });
+        })
+        .then(throwSuccess);
     });
   }
   getAll({ query }: { query: UserQueryDto }) {

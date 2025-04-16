@@ -24,7 +24,7 @@ export class CryptoService {
     const hmac = crypto.createHmac(algorithm, process.env.CRYPTO_KEY);
 
     // Mettre à jour le HMAC avec les données que vous voulez hacher
-    hmac.update('Bonjour le monde');
+    hmac.update(text);
 
     // Calculer le digest
     const hash = hmac.digest('hex');
@@ -51,8 +51,7 @@ export class CryptoService {
     return this.hash(text) === hashedText;
   }
   createKey() {
-    const salt = 'monSelUnique';
-    const key = crypto.scryptSync(process.env.JWT_SECRET_2, salt, 32);
+    const key = crypto.scryptSync(process.env.CRYPTO_KEY, process.env.CRYPTO_SALT, 32);
     const iv = crypto.randomBytes(16);
     return {
       key: key.toString('hex'),
@@ -62,6 +61,8 @@ export class CryptoService {
   encrypt(text) {
     const key = Buffer.from(process.env.CRYPTO_KEY, 'hex');
     const iv = Buffer.from(process.env.CRYPTO_IV, 'hex');
+    console.log('=============key=============', key);
+    console.log('=============Iv=============', iv);
     // Génère un vecteur d'initialisation aléatoire
     const cipher = crypto.createCipheriv(algorithm2, key, iv);
     let encrypted = cipher.update(text, 'utf8', 'hex');

@@ -39,6 +39,8 @@ export class UserBase implements User {
   laltitude: Decimal;
   @IsValidNumberOptionnalApi({ apiPropertyOptions: { type: Number } })
   longitude: Decimal;
+  @IsValidNumberOptionnalApi()
+  shopId: number;
 }
 export class UserPaginationResponseDto extends PaginationResponseDto {
   @ApiProperty({ type: [UserBase] })
@@ -73,4 +75,6 @@ export class UserUpdateDto extends PartialType(
   address: string;
   @IsAllowOptionalApi()
   login?: LoginUpdateDto;
+  @IsValidNumberOptionnalApi()
+  shopId?: number;
 }

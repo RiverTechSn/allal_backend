@@ -16,7 +16,6 @@ async function bootstrap() {
       json: true,
       compact: false,
       timestamp: true,
-      
     }),
   });
   app.useGlobalPipes(validationConfig);

@@ -8,29 +8,69 @@ import { CurrentUserDto } from 'src/common/types/login.dto';
 import { excludeFields } from 'src/cores/exclude_key';
 import { PaginationQueryDto } from 'src/common/types/paginagation_query.dto';
 import { BaseResponse } from 'src/cores/base_response';
-import { throwSuccess } from 'src/common/exceptions/ws_message';
+import {
+  HttpExceptionCode,
+  throwSuccess,
+  WsMessage,
+} from 'src/common/exceptions/ws_message';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class CustomerAliasService {
   constructor(private readonly db: DatabaseService) {}
-  perpage({
+  perpageshop({
     query,
-
-    id,
+    by,
   }: {
-    id: number;
+    by: CurrentUserDto;
     query: CustomerAliasQuery;
   }) {
+    if (!by?.user?.shopId)
+      throw new WsMessage({
+        ...HttpExceptionCode.FAILLURE,
+        message: ['ShopId not found'],
+      });
     const whereClause = {
       displayname: { contains: query.displayname ?? '' },
-      AND: {
-        customer: { phone: { contains: query.displayname ?? '' } },
-        shopId: id,
-      },
+      customer: { phone: { contains: query.phone ?? '' } },
+      shopId: by.user.shopId,
     };
     return this.db.customerAlias
       .findMany({
         where: whereClause,
+        ...query.getPaginationParams(),
+        select: {},
+      })
+      .then(async (val) => {
+        console.log(val);
+        return BaseResponse.successWithPagination(
+          val,
+          await this.db.customerAlias.count({ where: whereClause }),
+          query.perpage,
+        );
+      });
+  }
+  perpageCustomer({
+    query,
+    by,
+  }: {
+    by: CurrentUserDto;
+    query: CustomerAliasQuery;
+  }) {
+    if (!by?.customer?.id)
+      throw new WsMessage({
+        ...HttpExceptionCode.FAILLURE,
+        message: ['customerId not found'],
+      });
+    const whereClause:Prisma.CustomerAliasWhereInput = {
+      displayname: { contains: query.displayname ?? '' },
+      customer: {id: by.customer.id}, 
+    };
+    return this.db.customerAlias
+      .findMany({
+        where: whereClause,
+        ...query.getPaginationParams(),
+        select: {},
       })
       .then(async (val) => {
         console.log(val);

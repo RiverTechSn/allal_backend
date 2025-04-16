@@ -22,7 +22,7 @@ export const createFactory = ({
   return db.user
     .create({
       data: {
-        ...excludeFields(body, ['password']),
+        ...excludeFields(body, ['password', 'shopId']),
         walletBase: { create: { type: 'USER' } },
         login: {
           create: {

@@ -46,10 +46,15 @@ export class CustomerAliasController {
     return this.service.byId({ id });
   }
 
-  @ApiGet('perpage/shop/:shopId')
+  @ApiGet('perpage/shop')
   @ApiPaginationResponse(CustomerAliasPaginationResponseDto)
-  byShopId(@Query() query: CustomerAliasQuery, @Param('shopId') id: number) {
-    return this.service.perpage({ query, id });
+  byShopId(@Query() query: CustomerAliasQuery, @CurrentUser() by: CurrentUserDto) {
+    return this.service.perpageshop({ query, by});
+  }
+  @ApiGet('perpage/customer')
+  @ApiPaginationResponse(CustomerAliasPaginationResponseDto)
+  byCustomer(@Query() query: CustomerAliasQuery, @CurrentUser() by: CurrentUserDto) {
+    return this.service.perpageshop({ query, by});
   }
   @ApiGet('shop/:shopId/phone/:phone')
   @ApiPaginationResponse(CustomerAliasResponseDto)

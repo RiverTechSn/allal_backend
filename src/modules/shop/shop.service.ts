@@ -43,15 +43,11 @@ export class ShopService {
   }
   perpageByUser({ query, by }: { query: ShopQueryDto; by: CurrentUserDto }) {
     const whereClause = {
-      AND: [
-        {
+    
+        
           name: { contains: query.name ?? '' },
           address: { contains: query.address ?? '' },
-        },
-        {
-          userShop: { every: { userId: by.user.id } },
-        },
-      ],
+        
     };
     return this.db.shop
       .findMany({
@@ -61,6 +57,23 @@ export class ShopService {
         BaseResponse.successWithPagination(
           val,
           await this.db.shop.count({ where: whereClause }),
+          query.perpage,
+        ),
+      );
+  }
+
+  customerAlias({ query, by }: { query: ShopQueryDto; by: CurrentUserDto }) {
+    return this.db.customerAlias
+      .findMany({
+        where: { shopId: by.user.shopId },
+        ...query.getPaginationParams(),
+      })
+      .then(async (val) =>
+        BaseResponse.successWithPagination(
+          val,
+          await this.db.customerAlias.count({
+            where: { shopId: by.user.shopId },
+          }),
           query.perpage,
         ),
       );

@@ -1,6 +1,11 @@
 {
-    "markdown.preview.fontFamily": "'Victor Mono',-apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif",
-    "editor.fontFamily": "'Victor Mono Regular','Droid Sans Mono', 'monospace', monospace",
+    "markdown.preview.fontFamily": "'Victor Mono Regular',-apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif",
+    "editor.fontFamily": "'Victor Mono','Droid Sans Mono', 'monospace', monospace",
     "editor.fontVariations": true,
-    "editor.fontLigatures": true
+    "editor.fontLigatures": true,
+    "editor.fontSize": 18,
+    "editor.lineHeight": 35,
+    "files.autoSave": "afterDelay",
+    "files.autoSaveWhenNoErrors": true,
+    "editor.mouseWheelZoom": true
 }
