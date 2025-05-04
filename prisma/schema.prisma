@@ -81,7 +81,6 @@ model Customer {
   walletBase    WalletBase      @relation(name: "WalletBaseToCustomer", fields: [walletBaseId], references: [id])
   walletBaseId  Int             @unique
   assignment    Assignment[]    @relation(name: "AssignmentToCustomer")
-
   @@map("customer")
 }
 

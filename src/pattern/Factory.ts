@@ -4,7 +4,7 @@ class Carr {
   model: any;
   constructor(brand) {
     this.brand = brand;
-  }
+  } 
 }
 class CarFactory {
   static createCar(brand) {
