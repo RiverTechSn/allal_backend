@@ -9,7 +9,7 @@ import { BaseResponse } from 'src/cores/base_response';
 import { LoginDto } from 'src/common/types/login.dto';
 import { excludeFields } from 'src/cores/exclude_key';
 import { HttpExceptionCode, WsMessage } from 'src/common/exceptions/ws_message';
-import { LoginEnum } from '@prisma/client';
+import { Login, LoginEnum } from '@prisma/client';
 
 Injectable();
 export class SecurityService {
@@ -18,10 +18,34 @@ export class SecurityService {
     private readonly crypto: CryptoService,
     @Inject(JwtService) private readonly jwtService: JwtService,
   ) {}
-  profile(body) {
+  profile(body: Login) {
     // this.crypto.decrypt(.id)
-
-    return BaseResponse.success(body);
+    return this.db.login
+      .findFirstOrThrow({
+        where: { id: body.id },
+        include: {
+          user: body.type == 'USER',
+          customer: body.type == 'CUSTOMER',
+          role: {
+            select: {
+              name: true,
+              id: true,
+              rolePermission: {
+                select: {
+                  permission: {
+                    select: {
+                      module: { select: { name: true } },
+                      createdAt: false,
+                      updatedAt: false,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      })
+      .then(BaseResponse.success);
   }
 
   sigin(body: LoginDto, res: Response) {
@@ -33,7 +57,6 @@ export class SecurityService {
         include: {
           user: body.type === 'USER',
           customer: body.type === 'CUSTOMER',
-          
         },
       })
       .then((val) => {
