@@ -6,6 +6,8 @@ import { Body, Query } from '@nestjs/common';
 import { ShopWalletCreateDto } from 'src/common/types/shop8wallet.dto';
 import { ApiController } from 'src/common/decorators/api_controller';
 import { SearchQueryDto } from 'src/common/types/paginagation_query.dto';
+import { ApiLoginType } from '../security/login_type.guard';
+
 @ApiController('shop_wallet')
 export class ShopWalletController {
   constructor(private readonly service: ShopWalletService) {}
@@ -13,11 +15,20 @@ export class ShopWalletController {
   create(@CurrentUser() by: CurrentUserDto, @Body() body: ShopWalletCreateDto) {
     return this.service.transaction({ by, body });
   }
-  @ApiGet('transaction/shop/perpage')
+  @ApiGet('merchant/transaction/perpage')
+  @ApiLoginType(['MERCHANT'])
   perpageForShop(
     @Query() query: SearchQueryDto,
     @CurrentUser() by: CurrentUserDto,
   ) {
     return this.service.perpageShop({ by, query });
+  }
+  @ApiGet('customer/transaction/perpage')
+  @ApiLoginType(['CUSTOMER'])
+  perpageForCustmer(
+    @Query() query: SearchQueryDto,
+    @CurrentUser() by: CurrentUserDto,
+  ) {
+    return this.service.perpageCustomer({ by, query });
   }
 }
