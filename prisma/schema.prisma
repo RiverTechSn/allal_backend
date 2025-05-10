@@ -4,43 +4,23 @@ datasource db {
 }
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  previewFeatures = ["typedSql"]
+  binaryTargets = ["debian-openssl-3.0.x"]
 }
 
 // previewFeatures = ["omitApi"]
 // TODO:LOGIN
-model Login {
-  id         Int       @id @default(autoincrement())
-  type       LoginEnum
-  username   String
-  password   String
-  isActive   Boolean   @default(true)
-  isBlocked  Boolean   @default(false)
-  isArchived Boolean   @default(false)
-  customer  Customer? @relation(name: "CustomerToLogin")
-  role      Role?     @relation(name: "LoginToRole", fields: [roleId], references: [id])
-  roleId    Int?
-  user      User?     @relation(name: "LoginToUser")
-  createdAt DateTime? @default(now())
-  updatedAt DateTime? @updatedAt
-  Otp       Otp[]
-
-  @@unique([type, username])
-  @@index([type])
-  @@map("login")
-}
-
 // TODO:OPT
+
 model Otp {
   id        Int             @id @default(autoincrement())
-  login     Login?          @relation(fields: [loginId], references: [id])
   to        String?
   code      String
   duration  OptDurationEnum @default(MIN_15)
   via       OptViaEnum      @default(MAIL)
   createdAt DateTime?       @default(now())
   updatedAt DateTime?       @updatedAt
-  loginId   Int?
 
   @@map("otp")
 }
@@ -48,109 +28,108 @@ model Otp {
 // TODO:USER
 
 model User {
-  id           Int        @id @default(autoincrement())
-  login        Login?     @relation(name: "LoginToUser", fields: [loginId], references: [id])
-  loginId      Int?       @unique
+  id           Int          @id @default(autoincrement())
   displayname  String
-  email        String?    @unique
+  email        String?      @unique
   address      String
-  phone        String     @unique
+  phone        String
+  type         USER_TYPE
   dateOfBirth  DateTime?
   laltitude    Decimal?
   longitude    Decimal?
-  walletBase   WalletBase @relation(name: "WalletBaseToUser", fields: [walletBaseId], references: [id])
-  walletBaseId Int        @unique
-  shop         Shop?      @relation(name: "userToShop", fields: [shopId], references: [id])
+  password     String?
+  walletBase   WalletBase   @relation(name: "WalletBaseToUser", fields: [walletBaseId], references: [id])
+  walletBaseId Int          @unique
+  isActive     Boolean      @default(true)
+  isBlocked    Boolean      @default(false)
+  isArchived   Boolean      @default(false)
+  shop         Shop?        @relation(name: "userToShop", fields: [shopId], references: [id])
   shopId       Int?
+  userAlias    UserAlias[]  @relation()
+  assignment   Assignment[] @relation(name: "AssignmentToUser")
+  role         Role?        @relation(name: "RoleToUser", fields: [roleId], references: [id])
+  roleId       Int?
 
+  @@unique([phone, type])
   @@map("user")
 }
 
-// TODO:CUSTOMER
-model Customer {
-  id            Int             @id @default(autoincrement())
-  Login         Login?          @relation(name: "CustomerToLogin", fields: [loginId], references: [id])
-  loginId       Int?            @unique
-  displayname   String
-  address       String?
-  phone         String          @unique
-  laltitude     Decimal?
-  longitude     Decimal?
-  dateOfBirth   DateTime?
-  customerAlias CustomerAlias[] @relation(name: "CustomerToCustomerAlias")
-  walletBase    WalletBase      @relation(name: "WalletBaseToCustomer", fields: [walletBaseId], references: [id])
-  walletBaseId  Int             @unique
-  assignment    Assignment[]    @relation(name: "AssignmentToCustomer")
-  @@map("customer")
-}
-
 // TODO:CUSTOMER_ALIAS annuaire (peuvent etre creer a partir du repertoire de l utilisateur )
-model CustomerAlias {
-  id                      Int                       @id @default(autoincrement())
-  displayname             String
-  shop                    Shop                      @relation(name: "CustomerAliasToShop", fields: [shopId], references: [id])
-  customer                Customer                  @relation(name: "CustomerToCustomerAlias", fields: [customerId], references: [id])
-  customerId              Int
-  createdAt               DateTime?                 @default(now())
-  updatedAt               DateTime?                 @updatedAt
-  byId                    Int?
-  shopId                  Int
-  isActive                Boolean                   @default(true)
-  customerShopTransaction CustomerShopTransaction[] @relation(name: "CustomerAliasToDept")
-  customerShopWallet      CustomerShopWallet[]      @relation(name: "CustomerAliasToDeptStatus")
 
-  @@map("customer_alias")
+model UserAlias {
+  id          Int       @id @default(autoincrement())
+  displayname String
+  shop        Shop      @relation(fields: [shopId], references: [id])
+  user        User      @relation(fields: [userId], references: [id])
+  userId      Int
+  createdAt   DateTime? @default(now())
+  updatedAt   DateTime? @updatedAt
+  byId        Int?
+  shopId      Int
+  isActive    Boolean   @default(true)
+
+  shopWalletBase   ShopWalletBase @relation(fields: [shopWalletBaseId], references: [id])
+  shopWalletBaseId Int            @unique
+
+  @@map("user_alias")
 }
 
 // TODO: DEPT_STATUS
-model CustomerShopWallet {
-  id              Int           @id @default(autoincrement())
-  totalCredit     Decimal
-  totalDebut      Decimal
-  customerAlias   CustomerAlias @relation(name: "CustomerAliasToDeptStatus", fields: [customerAliasId], references: [id])
-  createdAt       DateTime?     @default(now())
-  updatedAt       DateTime?     @updatedAt
-  customerAliasId Int
 
-  @@map("dept_status")
+model ShopWalletBase {
+  id               Int                     @id @default(autoincrement())
+  createdAt        DateTime?               @default(now())
+  updatedAt        DateTime?               @updatedAt
+  userAlias        UserAlias?
+  Shop             Shop?
+  from             ShopWalletTransaction[] @relation("FromShopWAllet")
+  to               ShopWalletTransaction[] @relation("ToShopWAllet")
+  shopWalletStatus ShopWalletStatus[]
 }
 
 // TODO: DEPT
-model CustomerShopTransaction {
-  id              Int                         @id @default(autoincrement())
-  amount          Decimal
-  comment         String?
-  type            CustomerShopTransactionType
-  customerAlias   CustomerAlias               @relation(name: "CustomerAliasToDept", fields: [customerAliasId], references: [id])
-  customerAliasId Int
-  createdAt       DateTime?                   @default(now())
-  updatedAt       DateTime?                   @updatedAt
 
+model ShopWalletTransaction {
+  id        Int                     @id @default(autoincrement())
+  amount    Decimal
+  comment   String?
+  type      ShopUserTransactionType
+  from      ShopWalletBase          @relation(name: "FromShopWAllet", fields: [fromId], references: [id])
+  to        ShopWalletBase          @relation(name: "ToShopWAllet", fields: [toId], references: [id])
+  fromId    Int
+  toId      Int
+  createdAt DateTime?               @default(now())
+  updatedAt DateTime?               @updatedAt
+  shopId    Int
+
+  @@index([shopId])
   @@map("cusromer_shop_balance")
 }
 
 // TODO:SHOP
-model Shop {
-  id             Int                @id @default(autoincrement())
-  walletBase     WalletBase         @relation(name: "WalletBaseToShop", fields: [walletBaseId], references: [id])
-  walletBaseId   Int                @unique
-  laltitude      Decimal?
-  longitude      Decimal?
-  address        String?
-  name           String?
-  createdAt      DateTime?          @default(now())
-  updatedAt      DateTime?          @updatedAt
-  byId           Int?
-  cardAllocation CardAllocation[]   @relation(name: "CardAllocationToShop")
-  customerAlias  CustomerAlias[]    @relation(name: "CustomerAliasToShop")
-  payment        ShopOfferPayment[] @relation(name: "PaymentToShop")
-  cardRequest    CardRequest?       @relation(name: "ShopToCardRequest")
-  user           User[]             @relation(name: "userToShop")
 
-  @@map("shop")
+model Shop {
+  id               Int                @id @default(autoincrement())
+  walletBase       WalletBase         @relation(name: "WalletBaseToShop", fields: [walletBaseId], references: [id])
+  walletBaseId     Int                @unique
+  shopWalletBase   ShopWalletBase     @relation(fields: [shopWalletBaseId], references: [id])
+  laltitude        Decimal?
+  longitude        Decimal?
+  address          String?
+  name             String?
+  createdAt        DateTime?          @default(now())
+  updatedAt        DateTime?          @updatedAt
+  byId             Int?
+  cardAllocation   CardAllocation[]   @relation(name: "CardAllocationToShop")
+  userrAlias       UserAlias[]        @relation()
+  payment          ShopOfferPayment[] @relation(name: "PaymentToShop")
+  cardRequest      CardRequest?       @relation(name: "ShopToCardRequest")
+  user             User[]             @relation(name: "userToShop")
+  shopWalletBaseId Int                @unique
 }
 
 // TODO:WALLET_BASE
+
 model WalletBase {
   id              Int                 @id @default(autoincrement())
   type            EntityEnum
@@ -161,14 +140,12 @@ model WalletBase {
   toTransaction   WalletTransaction[] @relation(name: "ToTransaction")
   walletStatus    WalletStatus[]      @relation(name: "WalletBaseToWalletStatus")
   shop            Shop?               @relation(name: "WalletBaseToShop")
-  customer        Customer?           @relation(name: "WalletBaseToCustomer")
   isActive        Boolean             @default(true)
   user            User?               @relation(name: "WalletBaseToUser")
-
-  @@map("wallet_base")
 }
 
 // TODO: WALLET_STATUS
+
 model WalletStatus {
   id           Int        @id @default(autoincrement())
   walletBase   WalletBase @relation(name: "WalletBaseToWalletStatus", fields: [walletBaseId], references: [id])
@@ -176,11 +153,10 @@ model WalletStatus {
   totalCredit  Decimal
   walletBaseId Int
   createdAt    DateTime?  @default(now())
-
-  @@map("wallet_status")
 }
 
 // TODO:TRANSACTION
+
 model WalletTransaction {
   id           Int        @id @default(autoincrement())
   from         WalletBase @relation(name: "FromTRansaction", fields: [fromId], references: [id])
@@ -191,11 +167,10 @@ model WalletTransaction {
   createdAt    DateTime?  @default(now())
   updatedAt    DateTime?  @updatedAt
   walletBaseId Int?
-
-  @@map("transaction")
 }
 
 // TODO:CARD
+
 model Card {
   id                   Int                    @id @default(autoincrement())
   serial               String                 @unique
@@ -205,11 +180,10 @@ model Card {
   updatedAt            DateTime?              @updatedAt
   cardAllocationDetail CardAllocationDetail[] @relation(name: "CardToCardAllocationDetail")
   byId                 Int?
-
-  @@map("card")
 }
 
 // TODO:CARD_ALOCATION
+
 model CardAllocation {
   id                   Int                    @id @default(autoincrement())
   shop                 Shop                   @relation(name: "CardAllocationToShop", fields: [shopId], references: [id])
@@ -219,11 +193,10 @@ model CardAllocation {
   shopId               Int
   cardAllocationDetail CardAllocationDetail[] @relation(name: "CardAllocationToCardAllocationDetail")
   byId                 Int?
-
-  @@map("card_allocation")
 }
 
 // TODO:CARD_REQUEST
+
 model CardRequest {
   id                Int                @id @default(autoincrement())
   label             String
@@ -232,17 +205,15 @@ model CardRequest {
   updatedAt         DateTime?          @updatedAt
   shopId            Int
   quantity          Int
-  
   status            CardRequestEnum
   shop              Shop?              @relation(name: "ShopToCardRequest", fields: [shopId1], references: [id])
   shopId1           Int?               @unique
   byId              Int?
   cardrequeststatus CardRequestStatus? @relation(name: "CardRequestToCardRequestStatus")
-
-  @@map("card_request")
 }
 
 // TODO:CARD_REQUEST_STATUS
+
 model CardRequestStatus {
   id            Int             @id @default(autoincrement())
   status        CardRequestEnum
@@ -252,11 +223,10 @@ model CardRequestStatus {
   comment       String?
   createdAt     DateTime?       @default(now())
   updatedAt     DateTime?       @updatedAt
-
-  @@map("card_request_status")
 }
 
 // TODO:CARD_ALOCATION_DETAIL
+
 model CardAllocationDetail {
   card             Card           @relation(name: "CardToCardAllocationDetail", fields: [cardId], references: [id])
   cardAllocation   CardAllocation @relation(name: "CardAllocationToCardAllocationDetail", fields: [cardAllocationId], references: [id])
@@ -264,23 +234,21 @@ model CardAllocationDetail {
   cardAllocationId Int
 
   @@id([cardAllocationId, cardId])
-  @@map("card_allocation_detail")
 }
 
 // TODO:ASSIGNMENT
 
 model Assignment {
-  customer   Customer  @relation(name: "AssignmentToCustomer", fields: [customerId], references: [id])
-  card       Card      @relation(name: "AssignmentToCard", fields: [cardId], references: [id])
-  customerId Int
-  cardId     Int
-  isActive   Boolean   @default(false)
-  createdAt  DateTime? @default(now())
-  updatedAt  DateTime? @updatedAt
-  byId       Int?
+  user      User      @relation(name: "AssignmentToUser", fields: [userId], references: [id])
+  card      Card      @relation(name: "AssignmentToCard", fields: [cardId], references: [id])
+  userId    Int
+  cardId    Int
+  isActive  Boolean   @default(false)
+  createdAt DateTime? @default(now())
+  updatedAt DateTime? @updatedAt
+  byId      Int?
 
-  @@id([customerId, cardId])
-  @@map("assignment")
+  @@id([userId, cardId])
 }
 
 // TODO:MODULE
@@ -290,8 +258,6 @@ model Module {
   name       String       @unique
   permission Permission[] @relation(name: "ModuleToPermission")
   isActive   Boolean      @default(true)
-
-  @@map("module")
 }
 
 // TODO:ROLE
@@ -305,9 +271,7 @@ model Role {
   byId           Int?
   isActive       Boolean          @default(true)
   rolePermission RolePermission[] @relation(name: "RoleToRolePermission")
-  login          Login[]          @relation(name: "LoginToRole")
-
-  @@map("role")
+  User           User[]           @relation(name: "RoleToUser")
 }
 
 // TODO:ROLE_PERMISSION
@@ -319,7 +283,6 @@ model RolePermission {
   permissionId Int
 
   @@id([roleId, permissionId])
-  @@map("role_permission")
 }
 
 // TODO:PERMISSION
@@ -340,6 +303,7 @@ model Permission {
 }
 
 // TODO:OFFER
+
 model Offer {
   id               Int                @id @default(autoincrement())
   name             String             @unique
@@ -355,6 +319,7 @@ model Offer {
 }
 
 // TODO:PAYMENT
+
 model ShopOfferPayment {
   id             Int       @id @default(autoincrement())
   shop           Shop      @relation(name: "PaymentToShop", fields: [shopId], references: [id])
@@ -369,6 +334,22 @@ model ShopOfferPayment {
   updatedAt      DateTime? @updatedAt
 
   @@map("payment")
+}
+
+model ShopWalletStatus {
+  id               Int            @id @default(autoincrement())
+  totalCredit      Decimal
+  totalDebit       Decimal?
+  walletBase       ShopWalletBase @relation(fields: [shopWalletBaseId], references: [id])
+  createdAt        DateTime?      @default(now())
+  updatedAt        DateTime?      @updatedAt
+  shopWalletBaseId Int
+}
+
+enum USER_TYPE {
+  USER
+  MERCHANT
+  CUSTOMER
 }
 
 enum TransnactionTypeEnu1m {
@@ -407,11 +388,11 @@ enum LoginEnum {
   USER
 }
 
-enum CustomerShopTransactionType {
+enum ShopUserTransactionType {
   CREDIT
   DEBIT
 
-  @@map("customer_transaction_type")
+  @@map("user_alias_transaction_type")
 }
 
 enum OptViaEnum {

@@ -6,10 +6,10 @@ import { Inject } from '@nestjs/common/decorators/core/inject.decorator';
 import { Response } from 'express';
 import { CryptoService } from '../database/crypto_service';
 import { BaseResponse } from 'src/cores/base_response';
-import { LoginDto } from 'src/common/types/login.dto';
+import { CurrentUserDto, LoginDto } from 'src/common/types/login.dto';
 import { excludeFields } from 'src/cores/exclude_key';
 import { HttpExceptionCode, WsMessage } from 'src/common/exceptions/ws_message';
-import { Login, LoginEnum } from '@prisma/client';
+import { LoginEnum } from '@prisma/client';
 
 Injectable();
 export class SecurityService {
@@ -18,27 +18,22 @@ export class SecurityService {
     private readonly crypto: CryptoService,
     @Inject(JwtService) private readonly jwtService: JwtService,
   ) {}
-  profile(body: Login) {
+  profile(body: CurrentUserDto) {
     // this.crypto.decrypt(.id)
-    return this.db.login
+    return this.db.user
       .findFirstOrThrow({
         where: { id: body.id },
+        omit: { roleId: true, shopId: true },
         include: {
-          user: body.type == 'USER',
-          customer: body.type == 'CUSTOMER',
+          shop: body.type === 'MERCHANT' && {
+            select: { address: true, name: true },
+          },
           role: {
-            select: {
-              name: true,
-              id: true,
+            omit: { byId: true, createdAt: true, updatedAt: true },
+            include: {
               rolePermission: {
-                select: {
-                  permission: {
-                    select: {
-                      module: { select: { name: true } },
-                      createdAt: false,
-                      updatedAt: false,
-                    },
-                  },
+                include: {
+                  permission: {},
                 },
               },
             },
@@ -50,13 +45,11 @@ export class SecurityService {
 
   sigin(body: LoginDto, res: Response) {
     console.log(body);
-    return this.db.login
+    return this.db.user
       .findFirstOrThrow({
-        where: { username: body.username, type: body.type },
-        omit: { username: true },
-        include: {
-          user: body.type === 'USER',
-          customer: body.type === 'CUSTOMER',
+        where: {
+          OR: [{ phone: body.username }, { email: body.username }],
+          type: body.type,
         },
       })
       .then((val) => {

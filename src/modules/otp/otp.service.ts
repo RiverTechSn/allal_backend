@@ -11,7 +11,7 @@ export class OtpService {
         via: body.via,
         duration: body.duration,
         code: body.code,
-        loginId: body.loginId,
+       
       },
     });
     //   .then(() => {

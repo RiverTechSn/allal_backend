@@ -1,6 +1,10 @@
 import { Shop } from '@prisma/client';
 import { Decimal } from '@prisma/client/runtime/library';
-import { IsDecimalApi, IsValidNumberApi } from '../decorators/valid_number';
+import {
+  IsDecimalApi,
+  IsValidNumberApi,
+  IsValidNumberOptionnalApi,
+} from '../decorators/valid_number';
 import { OmitType } from '@nestjs/swagger/dist/type-helpers/omit-type.helper';
 import {
   IsValidStringApi,
@@ -12,6 +16,8 @@ import { ApiProperty } from '@nestjs/swagger';
 import { PaginationQueryDto } from './paginagation_query.dto';
 
 export class ShopBaseDto implements Shop {
+  @IsValidNumberOptionnalApi()
+  shopWalletBaseId: number;
   @IsValidStringApi()
   name: string;
   @IsValidStringApi()
@@ -38,6 +44,7 @@ export class ShopCreateDto extends OmitType(ShopBaseDto, [
   'updatedAt',
   'walletBaseId',
   'byId',
+  "shopWalletBaseId"
 ] as const) {}
 export class ShopEditDto extends ShopCreateDto {
   @IsValidStringOptionalApi()

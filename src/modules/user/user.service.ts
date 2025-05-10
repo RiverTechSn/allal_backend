@@ -16,6 +16,7 @@ import { UserQueryDto } from 'src/common/types/paginagation_query.dto';
 import { createAdminFactory } from './factory/create_admin.factory';
 import { createFactory } from './factory/create_user.factory';
 import { CLIENT_RENEG_LIMIT } from 'node:tls';
+import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class UserService implements OnModuleInit {
@@ -41,16 +42,8 @@ export class UserService implements OnModuleInit {
     console.log(body);
     return this.db.user
       .update({
-        where: { loginId: id },
-        data: {
-          ...excludeFields(body, ['login', 'shopId']),
-          ...(body.shopId && { shop: { connect: { id: body.shopId } } }),
-          login: {
-            update: {
-              data: { ...body.login },
-            },
-          },
-        },
+        where: { id: id },
+        data: body,
       })
       .then(throwSuccess);
   }
@@ -58,8 +51,7 @@ export class UserService implements OnModuleInit {
     console.log(id);
     return this.db.user
       .findFirstOrThrow({
-        where: { loginId: Number(id) },
-        include: { login: { omit: { username: true, password: true } } },
+        where: { id: Number(id) },
       })
       .then((val) => {
         return BaseResponse.success(val);
@@ -68,19 +60,20 @@ export class UserService implements OnModuleInit {
   createUserWithShop({ body }: { body: UserShopCreateDto }) {
     const userDto = excludeFields(body, ['shop']);
     console.log(userDto);
+
     return createFactory({
       db: this.db,
       mailer: this.mailer,
       crypto: this.crypto,
-      body: userDto,
+      body: { ...userDto, shopId: null },
     }).then((val) => {
       console.log(val);
       return this.db.shop
         .create({
           data: {
             ...body.shop,
-            walletBase: { create: { type: 'SHOP' } },
-
+            shopWalletBase: { create: { shopWalletStatus:{create:{totalCredit:0,totalDebit:0,}}} },
+            walletBase: { create: { type: 'SHOP',  } },
             user: {
               connect: { id: val.id },
             },
@@ -90,19 +83,18 @@ export class UserService implements OnModuleInit {
     });
   }
   getAll({ query }: { query: UserQueryDto }) {
-    const whereClause = {
+    const whereClause: Prisma.UserWhereInput = {
       displayname: { contains: query.displayname ?? '' },
       phone: { contains: query.phone ?? '' },
       email: { contains: query.email ?? '' },
     };
     return this.db.user
       .findMany({
+        omit: { password: true },
         include: {
-          login: {
-            include: { role: true },
-            omit: { password: true, username: true },
-          },
+          role: { select: { name: true } },
         },
+
         where: whereClause,
         ...query.getPaginationParams(),
       })

@@ -1,4 +1,4 @@
-import { CustomerAlias } from '@prisma/client';
+import {UserAlias } from '@prisma/client';
 import { IsValidNumberOptionnalApi } from '../decorators/valid_number';
 import { IsValidBooleanOptionalApi } from '../decorators/valid_boolean';
 import { IsValidDateOptionalApi } from '../decorators/valid_date';
@@ -12,7 +12,9 @@ import { PaginationQueryDto } from './paginagation_query.dto';
 import { ApiProperty } from '@nestjs/swagger';
 import { ResponseDto } from './pagination_response.dto';
 
-export class CustomerAliasBaseDto implements CustomerAlias {
+export class UserAliasBaseDto implements UserAlias {
+  @IsValidNumberOptionnalApi()
+  shopWalletBaseId: number;
   @IsValidNumberOptionnalApi()
   id: number;
   @IsValidBooleanOptionalApi()
@@ -24,28 +26,29 @@ export class CustomerAliasBaseDto implements CustomerAlias {
   @IsValidStringApi()
   displayname: string;
   @IsValidNumberOptionnalApi()
-  customerId: number;
+  userId: number;
   @IsValidNumberOptionnalApi()
   byId: number;
   @IsValidNumberOptionnalApi()
   shopId: number;
 }
 
-export class CustomerAliasResponseDto extends ResponseDto {
-  @ApiProperty({ type: CustomerAliasBaseDto })
-  result: CustomerAliasBaseDto;
+export class UserAliasResponseDto extends ResponseDto {
+  @ApiProperty({ type: UserAliasBaseDto })
+  result: UserAliasBaseDto;
 }
-export class CustomerAliasPaginationResponseDto extends PaginationQueryDto {
-  @ApiProperty({ type: [CustomerAliasBaseDto] })
-  result: [CustomerAliasBaseDto];
+export class UserAliasPaginationResponseDto extends PaginationQueryDto {
+  @ApiProperty({ type: [UserAliasBaseDto] })
+  result: [UserAliasBaseDto];
 }
-export class CustomerAliasCreateDto extends OmitType(CustomerAliasBaseDto, [
+export class UserAliasCreateDto extends OmitType(UserAliasBaseDto, [
   'id',
   'createdAt',
   'updatedAt',
   'shopId',
-  'customerId',
+  'userId',
   'byId',
+  'shopWalletBaseId',
 ] as const) {
   @IsValidPhoneApi()
   phone: string;
@@ -53,9 +56,9 @@ export class CustomerAliasCreateDto extends OmitType(CustomerAliasBaseDto, [
   displayname: string;
 }
 
-export class CustomerAliasQuery
+export class UserAliasQuery
   extends PaginationQueryDto
-  implements Partial<CustomerAliasCreateDto>
+  implements Partial<UserAliasCreateDto>
 {
   @IsValidStringOptionalApi()
   phone?: string;

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common/decorators/core/injectable.decorator';
 import { OnModuleDestroy } from '@nestjs/common/interfaces/hooks/on-destroy.interface';
 import { OnModuleInit } from '@nestjs/common/interfaces/hooks/on-init.interface';
-import { PrismaClient } from '@prisma/client';
+import { Prisma, PrismaClient } from '@prisma/client';
 
 @Injectable()
 export class DatabaseService
@@ -11,6 +11,7 @@ export class DatabaseService
   async onModuleInit() {
     await this.$connect();
   }
+
   async onModuleDestroy() {
     await this.$disconnect();
   }

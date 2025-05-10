@@ -1,21 +1,11 @@
 import { SecurityService } from './security.service';
 import {
-  Get,
-  Patch,
-  Post,
-  Put,
-} from '@nestjs/common/decorators/http/request-mapping.decorator';
-
-import {
   Body,
-  Req,
-  Res,
+  Res, 
 } from '@nestjs/common/decorators/http/route-params.decorator';
-
-import { ApiBearerAuth } from '@nestjs/swagger/dist/decorators/api-bearer.decorator';
 import { Response } from 'express';
 
-import { ApiNoAuth } from 'src/common/decorators/is_public.meta';
+import { ApiNoAuth } from  'src/common/decorators/is_public.meta';
 import { ApiController } from 'src/common/decorators/api_controller';
 import { LoginDto } from 'src/common/types/login.dto';
 import { CurrentUser } from 'src/common/decorators/current_user';

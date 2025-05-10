@@ -18,27 +18,17 @@ export const createAdminFactory = (
     if (!exist)
       return db.user.create({
         data: {
-          email: email,
+          email,
           displayname,
           phone,
           address: '',
+          type:"USER",
+          password,
           walletBase: { create: { type: 'USER' } },
-          login: {
+          role: {
             connectOrCreate: {
-              create: {
-                username: email,
-                password: password,
-                type: LoginEnum.USER,
-                role: {
-                  connectOrCreate: {
-                    create: { name: role },
-                    where: { name: role },
-                  },
-                },
-              },
-              where: {
-                type_username: { username: email, type: LoginEnum.USER },
-              },
+              create: { name: role },
+              where: { name: role },
             },
           },
         },

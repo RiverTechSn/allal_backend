@@ -1,5 +1,5 @@
 import { ApiController } from 'src/common/decorators/api_controller';
-import { CustomerAliasService } from './customer_alias.service';
+import { UserAliasService } from './user_alias.service';
 import {
   Get,
   Post,
@@ -22,42 +22,42 @@ import { CurrentUser } from 'src/common/decorators/current_user';
 import { CurrentUserDto } from 'src/common/types/login.dto';
 import { PaginationQueryDto } from 'src/common/types/paginagation_query.dto';
 import {
-  CustomerAliasCreateDto,
-  CustomerAliasPaginationResponseDto,
-  CustomerAliasQuery,
-  CustomerAliasResponseDto,
-} from 'src/common/types/customer_alias.dto';
+  UserAliasCreateDto as UserAliasCreateDto,
+  UserAliasPaginationResponseDto,
+  UserAliasQuery,
+  UserAliasResponseDto,
+} from 'src/common/types/user_alias.dto';
 import { ApiLoginType } from '../security/login_type.guard';
-@ApiController('customer-alias')
-export class CustomerAliasController {
-  constructor(private readonly service: CustomerAliasService) {}
+@ApiController('user-alias')
+export class UserAliasController {
+  constructor(private readonly service: UserAliasService) {}
   @ApiPost('create')
-  @ApiLoginType(['USER'])
+  @ApiLoginType(['MERCHANT'])
   create(
-    @Body() body: CustomerAliasCreateDto,
+    @Body() body: UserAliasCreateDto,
     @CurrentUser() by: CurrentUserDto,
   ) {
     return this.service.create({ body, by });
   }
 
   @ApiGet('id/:id')
-  @ApiPaginationResponse(CustomerAliasResponseDto)
+  @ApiPaginationResponse(UserAliasResponseDto)
   byId(@Param('id') id: number) {
     return this.service.byId({ id });
   }
 
   @ApiGet('perpage/shop')
-  @ApiPaginationResponse(CustomerAliasPaginationResponseDto)
-  byShopId(@Query() query: CustomerAliasQuery, @CurrentUser() by: CurrentUserDto) {
+  @ApiPaginationResponse(UserAliasPaginationResponseDto)
+  byShopId(@Query() query: UserAliasQuery, @CurrentUser() by: CurrentUserDto) {
     return this.service.perpageshop({ query, by});
   }
-  @ApiGet('perpage/customer')
-  @ApiPaginationResponse(CustomerAliasPaginationResponseDto)
-  byCustomer(@Query() query: CustomerAliasQuery, @CurrentUser() by: CurrentUserDto) {
+  @ApiGet('perpage/User')
+  @ApiPaginationResponse(UserAliasPaginationResponseDto)
+  byUser(@Query() query: UserAliasQuery, @CurrentUser() by: CurrentUserDto) {
     return this.service.perpageshop({ query, by});
   }
   @ApiGet('shop/:shopId/phone/:phone')
-  @ApiPaginationResponse(CustomerAliasResponseDto)
+  @ApiPaginationResponse(UserAliasResponseDto)
   byPhone(@Param('phone') phone: string, @Param('shopId') id: number) {
     return this.service.phone({ phone, id });
   }

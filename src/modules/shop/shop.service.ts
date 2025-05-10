@@ -22,6 +22,7 @@ export class ShopService {
     return this.db.shop
       .findMany({
         where: whereClause,
+        include:{user:{select:{displayname:true}}}
       })
       .then(async (val) =>
         BaseResponse.successWithPagination(
@@ -63,16 +64,16 @@ export class ShopService {
   }
 
   customerAlias({ query, by }: { query: ShopQueryDto; by: CurrentUserDto }) {
-    return this.db.customerAlias
+    return this.db.userAlias
       .findMany({
-        where: { shopId: by.user.shopId },
+        where: { shopId: by.id },
         ...query.getPaginationParams(),
       })
       .then(async (val) =>
         BaseResponse.successWithPagination(
           val,
-          await this.db.customerAlias.count({
-            where: { shopId: by.user.shopId },
+          await this.db.userAlias.count({
+            where: { shopId: by.id },
           }),
           query.perpage,
         ),

@@ -22,22 +22,14 @@ export const createFactory = ({
   return db.user
     .create({
       data: {
-        ...excludeFields(body, ['password', 'shopId']),
+        ...excludeFields(body, ['password', 'shopId', 'roleId']),
+        password: body.password && crypto.hash(body.password),
         walletBase: { create: { type: 'USER' } },
-        login: {
-          create: {
-            ...body.login,
-            username: body.email,
-            type: LoginEnum.USER,
-            password: crypto.hash(body.password),
-          },
-        },
+        role: { connect: { id: body.roleId } },
       },
-
-      include: { login: true },
     })
     .then((user) => {
-      const code = crypto.encrypt(`${user.loginId}_${new Date().getTime()}`);
+      const code = crypto.encrypt(`${user.id}_${new Date().getTime()}`);
       console.log(code);
       return db.otp
         .create({
@@ -45,7 +37,6 @@ export const createFactory = ({
             via: 'MAIL',
             duration: 'HOUR_12',
             code: code,
-            loginId: user.loginId,
           },
         })
         .then(() => {

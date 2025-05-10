@@ -1,4 +1,4 @@
-import { $Enums, Customer, Login, User } from '@prisma/client';
+import { $Enums, User } from '@prisma/client';
 import { IsValidStringApi } from '../decorators/valid_string';
 import { IsValidEnumApi } from '../decorators/valid_enum';
 import { IsValidBooleanOptionalApi } from '../decorators/valid_boolean';
@@ -6,20 +6,17 @@ import { IsValidStringNumberOptionalApi } from '../decorators/valid_string_numbe
 import { AddIdDto } from './id_param';
 import { Optional } from '@nestjs/common';
 import { OmitType } from '@nestjs/swagger/dist/type-helpers/omit-type.helper';
+import { UserBase } from './user.dto';
 
 export class LoginDto {
   @IsValidStringApi()
   username: string;
   @IsValidStringApi()
   password: string;
-  user: User;
-  customer: Customer;
-  @IsValidEnumApi<$Enums.LoginEnum>(Object.values($Enums.LoginEnum))
-  type?: $Enums.LoginEnum;
+  @IsValidEnumApi<$Enums.USER_TYPE>(Object.values($Enums.USER_TYPE))
+  type?: $Enums.USER_TYPE;
 }
 export class LoginUpdateDto extends OmitType(LoginDto, [
-  'user',
-  'customer',
   'password',
   'type',
 ] as const) {
@@ -33,4 +30,4 @@ export class LoginUpdateDto extends OmitType(LoginDto, [
   roleId?: number;
 }
 
-export type CurrentUserDto = AddIdDto & LoginDto;
+export type CurrentUserDto = AddIdDto & LoginDto & UserBase;
