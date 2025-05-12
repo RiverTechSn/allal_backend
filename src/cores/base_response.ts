@@ -1,5 +1,5 @@
 export class BaseResponse<T> {
-  status: boolean;
+  status: number;
   sessionExpired: boolean;
   result: T;
   message: string | string[];
@@ -9,8 +9,9 @@ export class BaseResponse<T> {
   static success<T>(result: T): BaseResponse<T> {
     const response = new BaseResponse<T>();
     response.result = result;
-    response.status = true;
+    response.status = 200;
     response.sessionExpired = false;
+    delete response.totalPage;
     return response;
   }
 
@@ -23,7 +24,7 @@ export class BaseResponse<T> {
     const totalPage = Math.ceil(count / perPage);
     const response = new BaseResponse<T>();
     response.result = result;
-    response.status = true;
+    response.status = 200;
     response.sessionExpired = false;
     response.totalPage = totalPage === 0 ? 1 : totalPage;
     return response;

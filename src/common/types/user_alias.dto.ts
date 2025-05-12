@@ -10,7 +10,7 @@ import {
 } from '../decorators/valid_string';
 import { PaginationQueryDto } from './paginagation_query.dto';
 import { ApiProperty } from '@nestjs/swagger';
-import { ResponseDto } from './pagination_response.dto';
+import { PaginationResponseDto, ResponseDto } from './pagination_response.dto';
 
 export class UserAliasBaseDto implements UserAlias {
   @IsValidNumberOptionnalApi()
@@ -37,7 +37,7 @@ export class UserAliasResponseDto extends ResponseDto {
   @ApiProperty({ type: UserAliasBaseDto })
   result: UserAliasBaseDto;
 }
-export class UserAliasPaginationResponseDto extends PaginationQueryDto {
+export class UserAliasPaginationResponseDto extends PaginationResponseDto {
   @ApiProperty({ type: [UserAliasBaseDto] })
   result: [UserAliasBaseDto];
 }
