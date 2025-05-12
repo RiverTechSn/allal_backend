@@ -18,7 +18,6 @@ import { Prisma } from '@prisma/client/index';
 export class UserAliasService {
   constructor(private readonly db: DatabaseService) {}
   perpageshop({ query, by }: { by: CurrentUserDto; query: UserAliasQuery }) {
-   
     if (!by?.shopId)
       throw new WsMessage({
         ...HttpExceptionCode.FAILLURE,
@@ -26,13 +25,30 @@ export class UserAliasService {
       });
     const whereClause: Prisma.UserAliasWhereInput = {
       displayname: { contains: query.displayname ?? '' },
-      user:query.phone&& { phone: { contains: query.phone ?? '' } },
+      user: query.phone && { phone: { contains: query.phone ?? '' } },
       shopId: by.shopId,
     };
     return this.db.userAlias
       .findMany({
         where: whereClause,
         ...query.getPaginationParams(),
+        include: {
+          user: { select: { phone: true } },
+          shopWalletBase: {
+            omit: { updatedAt:true ,createdAt: true },
+            include: {
+              shopWalletStatus: {
+                select: {
+                  totalCredit: true,
+                  createdAt: true,
+                  totalDebit: true,
+                },
+                take: 1,
+                orderBy: { id: 'desc' },
+              },
+            },
+          },
+        },
       })
       .then(async (val) => {
         console.log(val);
