@@ -20,7 +20,7 @@ import { ApiResponse, ApiOkResponse } from '@nestjs/swagger';
 import { ApiGet, ApiPost } from 'src/common/decorators/api_param';
 import { CurrentUser } from 'src/common/decorators/current_user';
 import { CurrentUserDto } from 'src/common/types/login.dto';
-import { PaginationQueryDto } from 'src/common/types/paginagation_query.dto';
+import { PaginationQueryDto, SearchQueryDto } from 'src/common/types/paginagation_query.dto';
 import {
   UserAliasCreateDto as UserAliasCreateDto,
   UserAliasPaginationResponseDto,
@@ -48,12 +48,12 @@ export class UserAliasController {
 
   @ApiGet('perpage/shop')
   @ApiPaginationResponse(UserAliasPaginationResponseDto)
-  byShopId(@Query() query: UserAliasQuery, @CurrentUser() by: CurrentUserDto) {
+  byShopId(@Query() query: SearchQueryDto, @CurrentUser() by: CurrentUserDto) {
     return this.service.perpageshop({ query, by});
   }
   @ApiGet('perpage/User')
   @ApiPaginationResponse(UserAliasPaginationResponseDto)
-  byUser(@Query() query: UserAliasQuery, @CurrentUser() by: CurrentUserDto) {
+  byUser(@Query() query: SearchQueryDto, @CurrentUser() by: CurrentUserDto) {
     return this.service.perpageshop({ query, by});
   }
   @ApiGet('shop/:shopId/phone/:phone')

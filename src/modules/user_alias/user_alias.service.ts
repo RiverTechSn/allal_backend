@@ -6,7 +6,10 @@ import {
 } from 'src/common/types/user_alias.dto';
 import { CurrentUserDto } from 'src/common/types/login.dto';
 import { excludeFields } from 'src/cores/exclude_key';
-import { PaginationQueryDto } from 'src/common/types/paginagation_query.dto';
+import {
+  PaginationQueryDto,
+  SearchQueryDto,
+} from 'src/common/types/paginagation_query.dto';
 import { BaseResponse } from 'src/cores/base_response';
 import {
   HttpExceptionCode,
@@ -17,15 +20,17 @@ import { Prisma } from '@prisma/client/index';
 @Injectable()
 export class UserAliasService {
   constructor(private readonly db: DatabaseService) {}
-  perpageshop({ query, by }: { by: CurrentUserDto; query: UserAliasQuery }) {
+  perpageshop({ query, by }: { by: CurrentUserDto; query: SearchQueryDto }) {
     if (!by?.shopId)
       throw new WsMessage({
         ...HttpExceptionCode.FAILLURE,
         message: ['ShopId not found'],
       });
     const whereClause: Prisma.UserAliasWhereInput = {
-      displayname: { contains: query.displayname ?? '' },
-      user: query.phone && { phone: { contains: query.phone ?? '' } },
+      OR: query.search && [
+        { displayname: { contains: query.search ?? '' } },
+        { user: { phone: { contains: query.search ?? '' } } },
+      ],
       shopId: by.shopId,
     };
     return this.db.userAlias
@@ -35,7 +40,7 @@ export class UserAliasService {
         include: {
           user: { select: { phone: true } },
           shopWalletBase: {
-            omit: { updatedAt:true ,createdAt: true },
+            omit: { updatedAt: true, createdAt: true },
             include: {
               shopWalletStatus: {
                 select: {
