@@ -1,6 +1,7 @@
 # compiled output
 dist
 /dist
+/liam
 prisma/migrations
 node_modules
 */node_modules

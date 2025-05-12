@@ -127,6 +127,7 @@ model Shop {
   cardRequest      CardRequest?       @relation(name: "ShopToCardRequest")
   user             User[]             @relation(name: "userToShop")
   shopWalletBaseId Int                @unique
+  inventory        Inventory[]
 }
 
 // TODO:WALLET_BASE
@@ -347,13 +348,33 @@ model ShopWalletStatus {
   shopWalletBaseId Int
 }
 
+model Inventory {
+  id      Int                @id @default(autoincrement())
+  name    String
+  shop    Shop               @relation(fields: [shopId], references: [id])
+  product InventoryProduct[]
+  shopId  Int
+}
+
+model InventoryProduct {
+  id                Int       @id @default(autoincrement())
+  name              String
+  purchasePrice     Decimal // Purchase price of the product
+  totalQuantity     Int // Total quantity of the product in inventory
+  remainingQuantity Int // Remaining quantity of the product
+  createdAt         DateTime  @default(now()) // Timestamp when the product was added
+  updatedAt         DateTime  @updatedAt // Timestamp when the product was last updated
+  inventory         Inventory @relation(fields: [inventoryId], references: [id])
+  inventoryId       Int
+}
+
 enum USER_TYPE {
   USER
   MERCHANT
   CUSTOMER
 }
 
-enum TransnactionTypeEnu1m {
+enum TransnactionTypeEnum {
   SHOP_TO_CUSTOMER
 }
 

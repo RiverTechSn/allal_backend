@@ -28,7 +28,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
       response.status(status).json({
         code: code,
         message: HttpExceptionCode.LOGIN_FAILLURE.message,
-        status: false,
+        status:  status ,
         timestamp: new Date().toISOString(),
         path: request.url,
       });
@@ -38,7 +38,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
         code: code,
         message: (exception.getResponse() as unknown as { messages: any })
           .messages,
-        status: 400,
+        status: status,
         timestamp: new Date().toISOString(),
         path: request.url,
       });
@@ -46,6 +46,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
       const e = exception.getResponse() as Object;
       response.status(status).json({
         ...e,
+        status:status,
         timestamp: new Date().toISOString(),
         path: request.url,
       });
@@ -58,7 +59,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
       response.status(status).json({
         code: code,
         message: [message],
-        status: false,
+        status: status,
         timestamp: new Date().toISOString(),
         path: request.url,
       });
@@ -85,13 +86,13 @@ export class HttpExceptionFilter implements ExceptionFilter {
       response.status(status).json({
         code: code,
         message: [message],
-        status: false,
+        status:  status,
         timestamp: new Date().toISOString(),
         path: request.url,
       });
     } else {
       response.status(status).json({
-        status: false,
+        status:  status,
         message: HttpExceptionCode.FAILLURE.message,
         timestamp: new Date().toISOString(),
         path: request.url,
