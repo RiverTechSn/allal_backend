@@ -4,9 +4,9 @@ datasource db {
 }
 
 generator client {
-  provider      = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["typedSql"]
-  binaryTargets = ["debian-openssl-3.0.x"]
+  binaryTargets   = ["debian-openssl-3.0.x"]
 }
 
 // previewFeatures = ["omitApi"]
@@ -71,6 +71,7 @@ model UserAlias {
   shopWalletBase   ShopWalletBase @relation(fields: [shopWalletBaseId], references: [id])
   shopWalletBaseId Int            @unique
 
+  @@unique([shopId, userId])
   @@map("user_alias")
 }
 
