@@ -411,8 +411,8 @@ enum LoginEnum {
 }
 
 enum ShopUserTransactionType {
-  CREDIT
-  DEBIT
+  REFUND
+  LOAN
 
   @@map("user_alias_transaction_type")
 }

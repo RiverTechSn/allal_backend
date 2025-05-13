@@ -11,6 +11,6 @@ export class ShopWalletCreateDto {
   amount: Decimal;
   @IsValidStringOptionalApi()
   comment: string;
-  @IsValidEnumApi(['CREDIT', 'DEBIT'])
-  type: 'CREDIT'|"DEBIT";
+  @IsValidEnumApi(['REFUND', 'LOAN'])
+  type: 'REFUND'|"LOAN";
 }
