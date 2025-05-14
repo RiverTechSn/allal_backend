@@ -6,6 +6,6 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 export const ApiController = (tag: string) => {
   return applyDecorators(
     Controller(tag.toLocaleLowerCase()),
-    ApiTags(tag.toUpperCase()),
+    ApiTags(tag.toUpperCase().replaceAll("-" , ' ')),
   );
 };

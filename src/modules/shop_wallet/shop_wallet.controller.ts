@@ -8,7 +8,7 @@ import { ApiController } from 'src/common/decorators/api_controller';
 import { SearchQueryDto } from 'src/common/types/paginagation_query.dto';
 import { ApiLoginType } from '../security/login_type.guard';
 
-@ApiController('shop_wallet')
+@ApiController('shop-wallet')
 export class ShopWalletController {
   constructor(private readonly service: ShopWalletService) {}
   @ApiPost('transaction/create')
