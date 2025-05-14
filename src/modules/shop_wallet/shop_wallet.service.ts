@@ -64,6 +64,14 @@ export class ShopWalletService {
     //     .$queryRawTyped(shopTransactionDebit(body.amount, 19))
     //     .then(console.log);
   }
+  getById({ id }: { id: number }) {
+    return this._db.shopWalletBase
+      .findUniqueOrThrow({
+        where: { id },
+        include: { shopWalletStatus: { take: 1, orderBy: { id: 'desc' } } },
+      })
+      .then(BaseResponse.success);
+  }
   perpageShop({ query, by }: { query: SearchQueryDto; by: CurrentUserDto }) {
     const where: Prisma.ShopWalletTransactionWhereInput = {
       OR: [

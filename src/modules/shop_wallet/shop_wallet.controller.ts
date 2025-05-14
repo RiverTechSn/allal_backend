@@ -2,7 +2,7 @@ import { ApiGet, ApiPost } from 'src/common/decorators/api_param';
 import { ShopWalletService } from './shop_wallet.service';
 import { CurrentUser } from 'src/common/decorators/current_user';
 import { CurrentUserDto } from 'src/common/types/login.dto';
-import { Body, Query } from '@nestjs/common';
+import { Body, Param, Query } from '@nestjs/common';
 import { ShopWalletCreateDto } from 'src/common/types/shop8wallet.dto';
 import { ApiController } from 'src/common/decorators/api_controller';
 import { SearchQueryDto } from 'src/common/types/paginagation_query.dto';
@@ -14,6 +14,11 @@ export class ShopWalletController {
   @ApiPost('transaction/create')
   create(@CurrentUser() by: CurrentUserDto, @Body() body: ShopWalletCreateDto) {
     return this.service.transaction({ by, body });
+  }
+  @ApiGet('wallet-base/by-id/:id')
+  @ApiLoginType(['MERCHANT'])
+  getById(@Param('id') id: number, @CurrentUser() by: CurrentUserDto) {
+    return this.service.getById({ id });
   }
   @ApiGet('merchant/transaction/perpage')
   @ApiLoginType(['MERCHANT'])
