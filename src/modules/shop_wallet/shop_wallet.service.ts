@@ -37,7 +37,7 @@ export class ShopWalletService {
       where: { userAlias: { id: body.userAliasId } },
     });
     const { fromId, toId } =
-      body.type === 'REFUND'
+      body.type === 'LOAN'
         ? { fromId: alias.id, toId: shop.id }
         : { fromId: shop.id, toId: alias.id };
     return this.wallet
