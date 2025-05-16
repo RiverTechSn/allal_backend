@@ -102,6 +102,7 @@ export class ShopWalletService {
       .findMany({
         where,
         ...query.getPaginationParams(),
+        orderBy:{id:'desc'},
         include: {
           from: {
             include: {
