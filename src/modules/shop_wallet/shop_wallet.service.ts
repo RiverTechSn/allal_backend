@@ -32,12 +32,18 @@ export class ShopWalletService {
   }) {
     const shop = await this._db.shopWalletBase.findFirstOrThrow({
       where: { shop: { id: by.shopId } },
-    }); 
-    console.log('=========================shop wallet===================', shop);
+    });
+    console.log(
+      '=========================shop wallet===================',
+      shop,
+    );
     const alias = await this._db.shopWalletBase.findFirstOrThrow({
       where: { userAlias: { id: body.userAliasId } },
     });
-    console.log('=========================alias wallet===================', alias);
+    console.log(
+      '=========================alias wallet===================',
+      alias,
+    );
 
     const { fromId, toId } =
       body.type === 'LOAN'
@@ -56,7 +62,7 @@ export class ShopWalletService {
               shopId: by.shopId,
               comment: body.comment,
             },
-          })  
+          })
           .then(throwSuccess);
       });
     // await   this._db.$executeRaw`START TRANSACTION;`;
@@ -97,8 +103,18 @@ export class ShopWalletService {
         where,
         ...query.getPaginationParams(),
         include: {
-          from: { include: { shop: true, userAlias: true } },
-          to: { include: { shop: true, userAlias: true } },
+          from: {
+            include: {
+              shop: true,
+              userAlias: { include: { user: { select: { phone: true } } } },
+            },
+          },
+          to: {
+            include: {
+              shop: true,
+              userAlias: { include: { user: { select: { phone: true } } } },
+            },
+          },
         },
       })
       .then(async (val) =>
