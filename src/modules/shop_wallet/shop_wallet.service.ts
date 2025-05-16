@@ -31,8 +31,8 @@ export class ShopWalletService {
     body: ShopWalletCreateDto;
   }) {
     const shop = await this._db.shopWalletBase.findFirstOrThrow({
-      where: { Shop: { id: by.shopId } },
-    });
+      where: { shop: { id: by.shopId } },
+    }); 
     console.log('=========================shop wallet===================', shop);
     const alias = await this._db.shopWalletBase.findFirstOrThrow({
       where: { userAlias: { id: body.userAliasId } },
@@ -82,13 +82,13 @@ export class ShopWalletService {
           from: query.search && {
             userAlias: { displayname: { contains: query.search } },
           },
-          to: { Shop: { id: by.shopId } },
+          to: { shop: { id: by.shopId } },
         },
         {
           to: query.search && {
             userAlias: { displayname: { contains: query.search } },
           },
-          from: { Shop: { id: by.shopId } },
+          from: { shop: { id: by.shopId } },
         },
       ],
     };
@@ -97,8 +97,8 @@ export class ShopWalletService {
         where,
         ...query.getPaginationParams(),
         include: {
-          from: { include: { Shop: true, userAlias: true } },
-          to: { include: { Shop: true, userAlias: true } },
+          from: { include: { shop: true, userAlias: true } },
+          to: { include: { shop: true, userAlias: true } },
         },
       })
       .then(async (val) =>
@@ -120,13 +120,13 @@ export class ShopWalletService {
       OR: [
         {
           from: query.search && {
-            Shop: { name: { contains: query.search } },
+            shop: { name: { contains: query.search } },
           },
           to: { userAlias: { userId: by.id } },
         },
         {
           to: query.search && {
-            Shop: { name: { contains: query.search } },
+            shop: { name: { contains: query.search } },
           },
           from: { userAlias: { userId: by.id } },
         },
@@ -137,8 +137,8 @@ export class ShopWalletService {
         where,
         ...query.getPaginationParams(),
         include: {
-          from: { include: { Shop: true, userAlias: true } },
-          to: { include: { Shop: true, userAlias: true } },
+          from: { include: { shop: true, userAlias: true } },
+          to: { include: { shop: true, userAlias: true } },
         },
       })
       .then(async (val) =>

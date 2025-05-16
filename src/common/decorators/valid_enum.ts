@@ -9,7 +9,7 @@ validationOptions?: ValidationOptions
 }
 export const  IsValidEnumApi =  <T extends string>(values: readonly T[] ,option?:Option , ) => {
     return applyDecorators(
-      IsIn(values, option?.validationOptions),
+      IsIn(values,  option?.validationOptions),
      ApiProperty({...option?.apiPropertyOptions,enum:Object.values(values)}),
     );
   }
