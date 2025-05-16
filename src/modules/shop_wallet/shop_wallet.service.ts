@@ -33,9 +33,12 @@ export class ShopWalletService {
     const shop = await this._db.shopWalletBase.findFirstOrThrow({
       where: { Shop: { id: by.shopId } },
     });
+    console.log('=========================shop wallet===================', shop);
     const alias = await this._db.shopWalletBase.findFirstOrThrow({
       where: { userAlias: { id: body.userAliasId } },
     });
+    console.log('=========================alias wallet===================', alias);
+
     const { fromId, toId } =
       body.type === 'LOAN'
         ? { fromId: alias.id, toId: shop.id }
@@ -53,7 +56,7 @@ export class ShopWalletService {
               shopId: by.shopId,
               comment: body.comment,
             },
-          })
+          })  
           .then(throwSuccess);
       });
     // await   this._db.$executeRaw`START TRANSACTION;`;

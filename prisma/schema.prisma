@@ -82,7 +82,7 @@ model ShopWalletBase {
   createdAt        DateTime?               @default(now())
   updatedAt        DateTime?               @updatedAt
   userAlias        UserAlias?
-  Shop             Shop?
+  shop             Shop?
   from             ShopWalletTransaction[] @relation("FromShopWAllet")
   to               ShopWalletTransaction[] @relation("ToShopWAllet")
   shopWalletStatus ShopWalletStatus[]

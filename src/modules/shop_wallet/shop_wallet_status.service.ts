@@ -29,7 +29,8 @@ export class ShopWalletStatusSerice {
     ShopWalletStatus (
         shopWalletBaseId,
         totalCredit,
-        totalDebit,updatedAt
+        totalDebit,
+        updatedAt
     ) (
         SELECT shopWalletBaseId, totalCredit + ${amount}, totalDebit, NOW()
         FROM ShopWalletStatus
