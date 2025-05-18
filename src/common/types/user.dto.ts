@@ -23,7 +23,7 @@ import { PaginationResponseDto } from './pagination_response.dto';
 import { ApiProperty } from '@nestjs/swagger';
 import { IsValidBooleanOptionalApi } from '../decorators/valid_boolean';
 import { IsValidStringNumberOptionalApi } from '../decorators/valid_string_number';
-import { IsValidEmailApi } from '../decorators/valid_email';
+import { IsValidEmailApi, IsValidEmailOptionalApi } from '../decorators/valid_email';
 import { IsValidEnumApi } from '../decorators/valid_enum';
 
 export class UserBase implements User {
@@ -43,7 +43,7 @@ export class UserBase implements User {
   longitude: Decimal;
   @IsValidStringApi()
   displayname: string;
-  @IsValidEmailApi()
+  @IsValidEmailOptionalApi()
   email: string;
   @IsValidPhoneApi()
   phone: string;
@@ -55,9 +55,9 @@ export class UserBase implements User {
   isBlocked: boolean;
   @IsValidBooleanOptionalApi()
   isArchived: boolean;
-  @IsValidNumberApi({ apiPropertyOptions: { type: 'number' } })
+  @IsValidNumberOptionnalApi({ apiPropertyOptions: { type: 'number' } })
   shopId: number | undefined;
-  @IsValidNumberApi()
+  @IsValidNumberOptionnalApi()
   roleId: number;
   // type: $Enums.USER_TYPE;
   // password: string;
@@ -102,7 +102,7 @@ export class UserResponseDto extends PaginationResponseDto {
 }
 export class UserCreateDto extends OmitType(UserBase, [
   'id',
-  'walletBaseId',
+  'walletBaseId'
 ] as const) {
   @IsValidStringApi({ validationOptions: {} })
   password: string;

@@ -40,12 +40,13 @@ export const createFactory = ({
           },
         })
         .then(() => {
-          return mailer
-            .sendUserConfirmation({
-              email: 'djiga2015@gmail.com',
-              token: code,
-            })
-            .then(() => user);
+          // return mailer
+          //   .sendUserConfirmation({
+          //     email: 'djiga2015@gmail.com',
+          //     token: code,
+          //   })
+          //   .then(() => user);
+          return user;
         });
     })
     .then((val) => val);
