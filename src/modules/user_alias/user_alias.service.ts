@@ -37,6 +37,7 @@ export class UserAliasService {
       .findMany({
         where: whereClause,
         ...query.getPaginationParams(),
+        orderBy:{displayname:"asc"},
         include: {
           user: { select: { phone: true } },
           shopWalletBase: {
