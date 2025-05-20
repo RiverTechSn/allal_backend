@@ -26,7 +26,7 @@ export class SecurityService {
         omit: { roleId: true, shopId: true },
         include: {
           shop: body.type === 'MERCHANT' && {
-            select: { address: true, name: true },
+            select: { address: true, name: true, shopWalletBaseId:true },
           },
           role: {
             omit: { byId: true, createdAt: true, updatedAt: true },
