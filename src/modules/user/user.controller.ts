@@ -31,12 +31,12 @@ export class UserController {
   getById(@Param('id') id: number) {
     return this.userServide.getById(id);
   }
-  @ApiPost('create-with-shop', {})
+  @ApiPost('create-with-shop', {secure:false})
   createWithShop(@Body() body: UserShopCreateDto) {
     console.log(body);
     return this.userServide.createUserWithShop({ body });
   }
-  @ApiPost('create')
+  @ApiPost('create',{secure:false})
   create(@Body() body: UserCreateDto) {
     return this.userServide.create(body);
   }

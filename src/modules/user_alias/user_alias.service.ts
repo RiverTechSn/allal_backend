@@ -117,6 +117,7 @@ export class UserAliasService {
           ...excludeFields(body, ['phone']),
           byId: by.id,
           shopWalletBase: {
+           
             create: {
               shopWalletStatus: { create: { totalCredit: 0, totalDebit: 0 } },
             },

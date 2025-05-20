@@ -15,7 +15,9 @@ export class ShopWalletStatusSerice {
     toId: number;
   }) {
     let canProcess: Boolean = true;
-console.log(`============from=${fromId}/to=${toId}/amount=${amount}===============`)
+    console.log(
+      `============from=${fromId}/to=${toId}/amount=${amount}===============`,
+    );
     while (canProcess) {
       canProcess = false;
       try {
@@ -42,7 +44,7 @@ console.log(`============from=${fromId}/to=${toId}/amount=${amount}=============
       `.then(console.log);
 
         // Create a new wallet status for the receiver
-       await this._db.$executeRaw`
+        await this._db.$executeRaw`
         INSERT INTO
     ShopWalletStatus (
         shopWalletBaseId,
