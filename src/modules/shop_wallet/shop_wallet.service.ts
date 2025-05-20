@@ -74,6 +74,7 @@ export class ShopWalletService {
     //     .then(console.log);
   }
   getById({ id }: { id: number }) {
+    console.log(`====================${id}====================`)
     return this._db.shopWalletBase
       .findUniqueOrThrow({
         where: { id },
