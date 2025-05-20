@@ -42,7 +42,7 @@ export class ShopWalletStatusSerice {
       `.then(console.log);
 
         // Create a new wallet status for the receiver
-        const toRaw = await this._db.$executeRaw`
+       await this._db.$executeRaw`
         INSERT INTO
     ShopWalletStatus (
         shopWalletBaseId,
@@ -59,11 +59,11 @@ export class ShopWalletStatusSerice {
       `.then(console.log);
 
         // Commit transaction
-        await this._db.$queryRaw`COMMIT;`;
+        await this._db.$executeRaw`COMMIT;`;
 
         return { success: true, message: 'Transaction completed successfully' };
       } catch (error) {
-        await this._db.$queryRaw`ROLLBACK;`;
+        await this._db.$executeRaw`ROLLBACK;`;
         if (
           error.code === 'ER_LOCK_WAIT_TIMEOUT' ||
           error.code === 'ER_LOCK_DEADLOCK'

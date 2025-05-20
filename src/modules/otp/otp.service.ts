@@ -13,7 +13,7 @@ export class OtpService {
         code: body.code,
        
       },
-    });
+    })
     //   .then(() => {
     //     return this.mailer.sendUserConfirmation({
     //       email: 'djiga2015@gmail.com',
