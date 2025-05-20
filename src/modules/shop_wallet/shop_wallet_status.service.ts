@@ -15,7 +15,7 @@ export class ShopWalletStatusSerice {
     toId: number;
   }) {
     let canProcess: Boolean = true;
-
+console.log(`============from=${fromId}/to=${toId}/amount=${amount}===============`)
     while (canProcess) {
       canProcess = false;
       try {
