@@ -51,6 +51,21 @@ export class SecurityService {
           OR: [{ phone: body.username }, { email: body.username }],
           type: body.type,
         },
+         include: {
+          shop: body.type === 'MERCHANT' && {
+            select: { address: true, name: true, shopWalletBaseId:true },
+          },
+          role: {
+            omit: { byId: true, createdAt: true, updatedAt: true },
+            include: {
+              rolePermission: {
+                include: {
+                  permission: {},
+                },
+              },
+            },
+          },
+        },
       })
       .then((val) => {
         console.log(val);
