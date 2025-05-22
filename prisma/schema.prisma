@@ -19,8 +19,10 @@ model Otp {
   code      String
   duration  OptDurationEnum @default(MIN_15)
   via       OptViaEnum      @default(MAIL)
+  status    OptStatusEnum?  @default(PENDING)
   createdAt DateTime?       @default(now())
   updatedAt DateTime?       @updatedAt
+  type      USER_TYPE?       
 
   @@map("otp")
 }
@@ -421,6 +423,12 @@ enum OptViaEnum {
   MAIL
   SMS
   PUSH
+}
+
+enum OptStatusEnum {
+  SUCCEDED
+  EXPIRED
+  PENDING
 }
 
 enum OptDurationEnum {

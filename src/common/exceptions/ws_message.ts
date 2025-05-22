@@ -65,6 +65,21 @@ export const HttpExceptionCode = {
     status: 404,
     message: ['Entity not found'],
   },
+  EXPIRED: {
+    code: 'EXPIRED',
+    status: 405,
+    message: ['code expired'],
+  },
+  INVALID_CODE: {
+    code: 'INVALID_CODE',
+    status: 405,
+    message: ['Invalid Code Pin'],
+  },
+  ALREADY_EXIST: {
+    code: 'ALREADY_EXIST',
+    status: 405,
+    message: ['Entity is already exist'],
+  },
   BAD_REQUEST: {
     code: 'BAD_REQUEST',
     status: 400,

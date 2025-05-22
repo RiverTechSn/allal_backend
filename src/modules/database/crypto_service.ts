@@ -51,7 +51,11 @@ export class CryptoService {
     return this.hash(text) === hashedText;
   }
   createKey() {
-    const key = crypto.scryptSync(process.env.CRYPTO_KEY, process.env.CRYPTO_SALT, 32);
+    const key = crypto.scryptSync(
+      process.env.CRYPTO_KEY,
+      process.env.CRYPTO_SALT,
+      32,
+    );
     const iv = crypto.randomBytes(16);
     return {
       key: key.toString('hex'),
@@ -59,22 +63,18 @@ export class CryptoService {
     };
   }
   encrypt(text) {
-    const key = Buffer.from(process.env.CRYPTO_KEY, 'hex');
-    const iv = Buffer.from(process.env.CRYPTO_IV, 'hex');
-    console.log('=============key=============', key);
-    console.log('=============Iv=============', iv);
-    // Génère un vecteur d'initialisation aléatoire
+     const key = Buffer.from(process.env.CRYPTO_KEY as string, 'hex');
+    const iv = Buffer.from(process.env.CRYPTO_IV as string, 'hex');
     const cipher = crypto.createCipheriv(algorithm2, key, iv);
     let encrypted = cipher.update(text, 'utf8', 'hex');
-    encrypted += cipher.final('hex');
-    // On concatène l'IV et le texte chiffré pour pouvoir déchiffrer par la suite
+    encrypted += cipher.final('hex'); // Correction ici
     return encrypted;
   }
 
   // Fonction pour déchiffrer un texte
   decrypt(encryptedText) {
-    const iv = Buffer.from(process.env.CRYPTO_IV, 'hex');
-    const key = Buffer.from(process.env.CRYPTO_KEY, 'hex');
+    const key = Buffer.from(process.env.CRYPTO_KEY as string, 'hex');
+    const iv = Buffer.from(process.env.CRYPTO_IV as string, 'hex');
     const decipher = crypto.createDecipheriv(algorithm2, key, iv);
     let decrypted = decipher.update(encryptedText, 'hex', 'utf8');
     decrypted += decipher.final('utf8');
