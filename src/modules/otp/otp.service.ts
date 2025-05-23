@@ -48,6 +48,7 @@ export class OtpService {
         console.log(val);
         console.log(this._crypto.decrypt(val.code));
         if (this._crypto.decrypt(val.code) === code) {
+          console.log("====================code pin Valid===============")
           const codeDuration=new Date().getTime() - val.createdAt.getTime();
           const duartion= this.getDuration(val.duration)
 
@@ -55,6 +56,7 @@ export class OtpService {
            codeDuration >
             duartion
           ) {
+          console.log("====================code pin Valid===============")
 
             return this._db.otp
               .update({
@@ -74,6 +76,7 @@ export class OtpService {
         }
         throw new WsMessage(HttpExceptionCode.INVALID_CODE);
       }).catch((err)=>{
+        if(err instanceof WsMessage) throw err;
          throw new WsMessage(HttpExceptionCode.INVALID_CODE);
       });
   }
