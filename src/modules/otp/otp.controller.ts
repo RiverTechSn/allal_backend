@@ -9,7 +9,7 @@ export class OtpController {
   constructor(private readonly service: OtpService) {}
   @ApiPost('create-with-check', { secure:false})
   createWithCheck(@Body() body: CreateOtpWithCheckDto) {
-    return this.service.checkAndSendOtp({ phone: body.to, type: body.type });
+    return this.service.checkAndSendOtp(body);
   }
   @ApiPost('virify', {secure:false})
   verifyOtp(@Body() body: VerifyOtpDto) {

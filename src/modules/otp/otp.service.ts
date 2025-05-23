@@ -1,4 +1,4 @@
-import { OtpCreateDto } from 'src/common/types/otp.dto';
+import { CreateOtpWithCheckDto, OtpCreateDto } from 'src/common/types/otp.dto';
 import { DatabaseService } from '../database/database.service';
 import { Injectable } from '@nestjs/common/decorators/core/injectable.decorator';
 import { OptDurationEnum, USER_TYPE } from '@prisma/client';
@@ -78,19 +78,20 @@ export class OtpService {
       });
   }
 
-  checkAndSendOtp({ phone, type }: { phone: string; type: USER_TYPE }) {
+  checkAndSendOtp({ to, type }:CreateOtpWithCheckDto) {
     return this._db.user
       .findUniqueOrThrow({
-        where: { phone_type: { phone: phone, type } },
+        where: { phone_type: { phone: to, type } },
       })
       .then((val) => {
-        throw new WsMessage(HttpExceptionCode.BAD_REQUEST);
+        throw new WsMessage(HttpExceptionCode.ALREADY_EXIST);
       })
-      .catch(() => {
+      .catch((err) => {
+        if(err instanceof WsMessage) throw err;
         return this.create({
           duration: 'MIN_15',
           code: '110596',
-          to: phone,
+          to: to,
           loginId: null,
           via: 'SMS',
           type,
