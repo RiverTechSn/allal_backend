@@ -11,7 +11,7 @@ export class OtpController {
   createWithCheck(@Body() body: CreateOtpWithCheckDto) {
     return this.service.checkAndSendOtp(body);
   }
-  @ApiPost('virify', {secure:false})
+  @ApiPost('verify', {secure:false})
   verifyOtp(@Body() body: VerifyOtpDto) {
     return this.service.verifyOtp({ phone: body.to, code: body.code, type:body.type });
   }
