@@ -85,7 +85,11 @@ export class UserAliasService {
       .findMany({
         where: whereClause,
         ...query.getPaginationParams(),
-        select: {},
+     include:{
+      shop:true,
+      shopWalletBase:{include:{shopWalletStatus:{take:1, orderBy:{id:'desc'}}}}
+     }
+
       })
       .then(async (val) => {
         console.log(val);
