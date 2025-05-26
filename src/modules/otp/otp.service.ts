@@ -51,13 +51,11 @@ export class OtpService {
           console.log("====================code pin Valid===============")
           const codeDuration=new Date().getTime() - val.createdAt.getTime();
           const duartion= this.getDuration(val.duration)
-
           if (
            codeDuration >
             duartion
           ) {
           console.log("====================code pin Valid===============")
-
             return this._db.otp
               .update({
                 where: { id: val.id },

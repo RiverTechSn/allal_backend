@@ -47,14 +47,16 @@ export class UserAliasController {
   }
 
   @ApiGet('perpage/shop')
+  @ApiLoginType(['MERCHANT'])
   @ApiPaginationResponse(UserAliasPaginationResponseDto)
   byShopId(@Query() query: SearchQueryDto, @CurrentUser() by: CurrentUserDto) {
     return this.service.perpageshop({ query, by});
   }
-  @ApiGet('perpage/User')
+  @ApiGet('perpage/user')
+  @ApiLoginType(['CUSTOMER'])
   @ApiPaginationResponse(UserAliasPaginationResponseDto)
-  byUser(@Query() query: SearchQueryDto, @CurrentUser() by: CurrentUserDto) {
-    return this.service.perpageshop({ query, by});
+  byUser(@Query() query: UserAliasQuery, @CurrentUser() by: CurrentUserDto) {
+    return this.service.perpageCustomer({ query, by});
   }
   @ApiGet('shop/:shopId/phone/:phone')
   @ApiPaginationResponse(UserAliasResponseDto)
