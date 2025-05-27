@@ -2,11 +2,7 @@ import { ApiController } from 'src/common/decorators/api_controller';
 import { ApiGet, ApiPost, ApiPut } from 'src/common/decorators/api_param';
 import { SearchQueryDto } from 'src/common/types/paginagation_query.dto';
 import { ApiPaginationResponse } from 'src/common/decorators/response.decorator';
-import {
-  RoleCreateDto,
-  RoleEditDto,
-  RolePaginationResponseDto,
-} from 'src/common/types/role.dto';
+
 import { ApiLoginType } from '../security/login_type.guard';
 import { CurrentUser } from 'src/common/decorators/current_user';
 import { CurrentUserDto } from 'src/common/types/login.dto';
@@ -16,12 +12,13 @@ import {
   Query,
 } from '@nestjs/common/decorators/http/route-params.decorator';
 import { ModuleService } from './module.service';
+import { ModuleCreateDto, ModuleEditDto, ModulePaginationResponseDto } from 'src/common/types/module.dto';
 
 @ApiController('module')
 export class ModuleController {
   constructor(private readonly service: ModuleService) {}
   @ApiGet('perpage')
-  @ApiPaginationResponse(RolePaginationResponseDto)
+  @ApiPaginationResponse(ModulePaginationResponseDto)
   perpage(@Query() query: SearchQueryDto) {
     return this.service.perpage({ query });
   }
@@ -34,7 +31,7 @@ export class ModuleController {
   @ApiPut('id/:id')
   @ApiLoginType(['USER'])
   edit(
-    @Body() body: RoleEditDto,
+    @Body() body: ModuleEditDto,
     @Param('id') id: number,
     @CurrentUser() by: CurrentUserDto,
   ) {
@@ -42,7 +39,7 @@ export class ModuleController {
   }
   @ApiPost('create')
   @ApiLoginType(['USER'])
-  create(@Body() body: RoleCreateDto, @CurrentUser() by: CurrentUserDto) {
+  create(@Body() body: ModuleCreateDto, @CurrentUser() by: CurrentUserDto) {
     return this.service.create({ body, by });
   }
 }

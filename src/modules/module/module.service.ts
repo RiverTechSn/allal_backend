@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common/decorators/core/injectable.decorator';
 import { DatabaseService } from '../database/database.service';
 import { CurrentUserDto } from 'src/common/types/login.dto';
-import { RoleCreateDto, RoleEditDto } from 'src/common/types/role.dto';
 import { throwSuccess } from 'src/common/exceptions/ws_message';
 import { SearchQueryDto } from 'src/common/types/paginagation_query.dto';
 import { Prisma } from '.prisma/client/default';
@@ -12,8 +11,8 @@ import { ModuleCreateDto, ModuleEditDto } from 'src/common/types/module.dto';
 export class ModuleService {
   constructor(private readonly db: DatabaseService) {}
   create({ by, body }: { by: CurrentUserDto; body: ModuleCreateDto }) {
-    return this.db.role
-      .create({ data: { ...body, byId: by.id } })
+    return this.db.module
+      .create({ data: { ...body } })
       .then(throwSuccess);
   }
   perpage({ query }: { query: SearchQueryDto }) {
@@ -31,7 +30,7 @@ export class ModuleService {
       );
   }
   update({ id, body }: { id: number; body: ModuleEditDto }) {
-    return this.db.role
+    return this.db.module
       .update({ where: { id }, data: { ...body } })
       .then(throwSuccess);
   }
