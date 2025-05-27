@@ -19,7 +19,10 @@ export class LoginDto {
 export class PasswordEditDto extends OmitType(LoginDto, [
  'username',
   'type',
-] as const) {}
+] as const) {
+   @IsValidStringApi()
+  oldPassword: string;
+}
 export class LoginUpdateDto extends OmitType(LoginDto, [
   'password',
   'type',

@@ -12,7 +12,11 @@ import {
   PasswordEditDto,
 } from 'src/common/types/login.dto';
 import { excludeFields } from 'src/cores/exclude_key';
-import { HttpExceptionCode, WsMessage } from 'src/common/exceptions/ws_message';
+import {
+  HttpExceptionCode,
+  throwSuccess,
+  WsMessage,
+} from 'src/common/exceptions/ws_message';
 import { LoginEnum } from '@prisma/client';
 
 Injectable();
@@ -102,9 +106,21 @@ export class SecurityService {
       });
   }
   editPin({ by, body }: { by: CurrentUserDto; body: PasswordEditDto }) {
-    return this.db.user.update({
-      where: { id: by.id },
-      data: { password: this.crypto.hash(body.password) },
-    });
+    return this.db.user
+      .findUniqueOrThrow({ where: { id: by.id } })
+      .then((val) => {
+        if (val.password === this.crypto.hash(body.oldPassword)) {
+          return this.db.user
+            .update({
+              where: { id: val.id },
+              data: { password: this.crypto.hash(body.password) },
+            })
+            .then(throwSuccess);
+        }else {
+          throw new WsMessage(HttpExceptionCode.INVALID_CODE)
+        }
+      });
+
+      
   }
 }
