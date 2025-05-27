@@ -11,6 +11,7 @@ import { UserAliasModule } from './modules/user_alias/user_alias.module';
 import { RoleModule } from './modules/role/role.module';
 import { ShopModule } from './modules/shop/shop.module';
 import { ShopWalletModule } from './modules/shop_wallet/shop_wallet.module';
+import { ModuleModule } from './modules/module/module.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { ShopWalletModule } from './modules/shop_wallet/shop_wallet.module';
     EmailerModule,
     SecurityModule,
     RoleModule,
+    ModuleModule,
     UserModule,
     OtpModule,
     UserAliasModule,
