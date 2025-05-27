@@ -7,7 +7,7 @@ import { Response } from 'express';
 
 import { ApiNoAuth } from  'src/common/decorators/is_public.meta';
 import { ApiController } from 'src/common/decorators/api_controller';
-import { LoginDto } from 'src/common/types/login.dto';
+import { CurrentUserDto, LoginDto } from 'src/common/types/login.dto';
 import { CurrentUser } from 'src/common/decorators/current_user';
 import { ApiGet, ApiPost, ApiPut } from 'src/common/decorators/api_param';
 
@@ -31,9 +31,13 @@ export class SecurityController {
   forgetPassword() {
     // TODO document why this method 'forgetPassword' is empty
   }
-  @ApiPut('reset-password', { secure: false })
-  resetPassword() {
-    // TODO document why this method 'resetPassword' is empty
+  @ApiPut('reset-password', { })
+  resetPassword(@Body("password") password:string, @CurrentUser() by:CurrentUserDto) {
+  return this.service.editPin({by, password})
+  }
+   @ApiPut('edit-password', { })
+  editPassword(@Body("password") password:string, @CurrentUser() by:CurrentUserDto) {
+  return this.service.editPin({by, password})
   }
   @ApiPut('define-password', { secure: false })
   definePassword() {

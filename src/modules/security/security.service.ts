@@ -26,7 +26,7 @@ export class SecurityService {
         omit: { roleId: true, shopId: true },
         include: {
           shop: body.type === 'MERCHANT' && {
-            select: { address: true, name: true, shopWalletBaseId:true },
+            select: { address: true, name: true, shopWalletBaseId: true },
           },
           role: {
             omit: { byId: true, createdAt: true, updatedAt: true },
@@ -51,9 +51,9 @@ export class SecurityService {
           OR: [{ phone: body.username }, { email: body.username }],
           type: body.type,
         },
-         include: {
+        include: {
           shop: body.type === 'MERCHANT' && {
-            select: { address: true, name: true, shopWalletBaseId:true },
+            select: { address: true, name: true, shopWalletBaseId: true },
           },
           role: {
             omit: { byId: true, createdAt: true, updatedAt: true },
@@ -96,5 +96,11 @@ export class SecurityService {
           }),
         );
       });
+  }
+  editPin({ by, password }: { by: CurrentUserDto; password: string }) {
+    return this.db.user.update({
+      where: { id: by.id },
+      data: { password: this.crypto.hash(password) },
+    });
   }
 }
