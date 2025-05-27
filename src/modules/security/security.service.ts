@@ -6,7 +6,11 @@ import { Inject } from '@nestjs/common/decorators/core/inject.decorator';
 import { Response } from 'express';
 import { CryptoService } from '../database/crypto_service';
 import { BaseResponse } from 'src/cores/base_response';
-import { CurrentUserDto, LoginDto } from 'src/common/types/login.dto';
+import {
+  CurrentUserDto,
+  LoginDto,
+  PasswordEditDto,
+} from 'src/common/types/login.dto';
 import { excludeFields } from 'src/cores/exclude_key';
 import { HttpExceptionCode, WsMessage } from 'src/common/exceptions/ws_message';
 import { LoginEnum } from '@prisma/client';
@@ -97,10 +101,10 @@ export class SecurityService {
         );
       });
   }
-  editPin({ by, password }: { by: CurrentUserDto; password: string }) {
+  editPin({ by, body }: { by: CurrentUserDto; body: PasswordEditDto }) {
     return this.db.user.update({
       where: { id: by.id },
-      data: { password: this.crypto.hash(password) },
+      data: { password: this.crypto.hash(body.password) },
     });
   }
 }

@@ -16,6 +16,10 @@ export class LoginDto {
   @IsValidEnumApi<$Enums.USER_TYPE>(Object.values($Enums.USER_TYPE))
   type?: $Enums.USER_TYPE;
 }
+export class PasswordEditDto extends OmitType(LoginDto, [
+ 'username',
+  'type',
+] as const) {}
 export class LoginUpdateDto extends OmitType(LoginDto, [
   'password',
   'type',

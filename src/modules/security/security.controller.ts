@@ -1,13 +1,14 @@
 import { SecurityService } from './security.service';
 import {
   Body,
+  Param,
   Res, 
 } from '@nestjs/common/decorators/http/route-params.decorator';
 import { Response } from 'express';
 
 import { ApiNoAuth } from  'src/common/decorators/is_public.meta';
 import { ApiController } from 'src/common/decorators/api_controller';
-import { CurrentUserDto, LoginDto } from 'src/common/types/login.dto';
+import { CurrentUserDto, LoginDto, PasswordEditDto } from 'src/common/types/login.dto';
 import { CurrentUser } from 'src/common/decorators/current_user';
 import { ApiGet, ApiPost, ApiPut } from 'src/common/decorators/api_param';
 
@@ -32,12 +33,12 @@ export class SecurityController {
     // TODO document why this method 'forgetPassword' is empty
   }
   @ApiPut('reset-password', { })
-  resetPassword(@Body("password") password:string, @CurrentUser() by:CurrentUserDto) {
-  return this.service.editPin({by, password})
+  resetPassword(@Body() body:PasswordEditDto, @CurrentUser() by:CurrentUserDto) {
+  return this.service.editPin({by, body})
   }
    @ApiPut('edit-password', { })
-  editPassword(@Body("password") password:string, @CurrentUser() by:CurrentUserDto) {
-  return this.service.editPin({by, password})
+  editPassword(@Body() body:PasswordEditDto, @CurrentUser() by:CurrentUserDto) {
+  return this.service.editPin({by, body})
   }
   @ApiPut('define-password', { secure: false })
   definePassword() {
