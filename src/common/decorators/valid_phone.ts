@@ -14,8 +14,7 @@ export const IsValidPhoneApi = (option?: Option) => {
   return applyDecorators(
     IsPhoneNumber(option?.region, option?.validationOptions),
     Transform(({ value }) => {
-      console.log(value.trim());
-      return (value + '').replaceAll(" " , "");
+      return (value + '').replaceAll(/[^0-9+]/g , "");
     }),
     ApiProperty(option?.apiPropertyOptions),
   );
