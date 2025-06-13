@@ -36,4 +36,13 @@ export class ShopWalletController {
   ) {
     return this.service.perpageCustomer({ by, query });
   }
+  @ApiGet('customer/transaction/perpage-by-shop/:id')
+  @ApiLoginType(['CUSTOMER'])
+  perpageForCustmerByShopId(
+    @Query() query: SearchQueryDto,
+    @Param('id') id: number,
+    @CurrentUser() by: CurrentUserDto,
+  ) {
+    return this.service.perpageCustomerByShop({ by, query , id});
+  }
 }

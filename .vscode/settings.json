@@ -7,5 +7,6 @@
     "editor.lineHeight": 35,
     "files.autoSave": "afterDelay",
     "files.autoSaveWhenNoErrors": true,
-    "editor.mouseWheelZoom": true
+    "editor.mouseWheelZoom": true,
+    "postman.settings.dotenv-detection-notification-visibility": false
 }

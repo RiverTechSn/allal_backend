@@ -74,7 +74,7 @@ export class ShopWalletService {
     //     .then(console.log);
   }
   getById({ id }: { id: number }) {
-    console.log(`====================${id}====================`)
+    console.log(`====================${id}====================`);
     return this._db.shopWalletBase
       .findUniqueOrThrow({
         where: { id },
@@ -103,7 +103,7 @@ export class ShopWalletService {
       .findMany({
         where,
         ...query.getPaginationParams(),
-        orderBy:{id:'desc'},
+        orderBy: { id: 'desc' },
         include: {
           from: {
             include: {
@@ -129,6 +129,7 @@ export class ShopWalletService {
   }
   perpageCustomer({
     query,
+
     by,
   }: {
     query: SearchQueryDto;
@@ -138,13 +139,55 @@ export class ShopWalletService {
       OR: [
         {
           from: query.search && {
-            shop: { name: { contains: query.search } },
+            shop: { name: query.search ?? '' },
           },
           to: { userAlias: { userId: by.id } },
         },
         {
           to: query.search && {
-            shop: { name: { contains: query.search } },
+            shop: { name: query.search ?? '' },
+          },
+          from: { userAlias: { userId: by.id } },
+        },
+      ],
+    };
+    return this._db.shopWalletTransaction
+      .findMany({
+        where,
+        ...query.getPaginationParams(),
+        include: {
+          from: { include: { shop: true, userAlias: true } },
+          to: { include: { shop: true, userAlias: true } },
+        },
+      })
+      .then(async (val) =>
+        BaseResponse.successWithPagination(
+          val,
+          await this._db.shopWalletTransaction.count({ where }),
+          query.perpage,
+        ),
+      );
+  }
+  perpageCustomerByShop({
+    query,
+    id,
+    by,
+  }: {
+    id: number;
+    query: SearchQueryDto;
+    by: CurrentUserDto;
+  }) {
+    const where: Prisma.ShopWalletTransactionWhereInput = {
+      OR: [
+        {
+          from: query.search && {
+            shop: { id },
+          },
+          to: { userAlias: { userId: by.id } },
+        },
+        {
+          to: query.search && {
+            shop: { id },
           },
           from: { userAlias: { userId: by.id } },
         },

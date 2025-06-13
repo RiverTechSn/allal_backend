@@ -22,8 +22,7 @@ model Otp {
   status    OptStatusEnum?  @default(PENDING)
   createdAt DateTime?       @default(now())
   updatedAt DateTime?       @updatedAt
-  type      USER_TYPE?       
-
+  type      USER_TYPE?
   @@map("otp")
 }
 
@@ -110,6 +109,18 @@ model ShopWalletTransaction {
 }
 
 // TODO:SHOP
+enum CURRENCY_ENUM {
+  XOF
+  XAF
+  GHS
+  NGN
+  SSL
+  LRD
+  GNF
+  STN
+  GMD
+  MRU
+}
 
 model Shop {
   id               Int                @id @default(autoincrement())
@@ -120,6 +131,7 @@ model Shop {
   longitude        Decimal?
   address          String?
   name             String?
+  currency         CURRENCY_ENUM      @default(XOF)
   createdAt        DateTime?          @default(now())
   updatedAt        DateTime?          @updatedAt
   byId             Int?
@@ -359,15 +371,13 @@ model Inventory {
 }
 
 model InventoryProduct {
-  id                Int       @id @default(autoincrement())
-  name              String
-  purchasePrice     Decimal // Purchase price of the product
-  totalQuantity     Int // Total quantity of the product in inventory
-  remainingQuantity Int // Remaining quantity of the product
-  createdAt         DateTime  @default(now()) // Timestamp when the product was added
-  updatedAt         DateTime  @updatedAt // Timestamp when the product was last updated
-  inventory         Inventory @relation(fields: [inventoryId], references: [id])
-  inventoryId       Int
+  id          Int       @id @default(autoincrement())
+  name        String
+  amount      Decimal // Purchase price of the product
+  createdAt   DateTime  @default(now()) // Timestamp when the product was added
+  updatedAt   DateTime  @updatedAt // Timestamp when the product was last updated
+  inventory   Inventory @relation(fields: [inventoryId], references: [id])
+  inventoryId Int
 }
 
 enum USER_TYPE {

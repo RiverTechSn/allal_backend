@@ -1,4 +1,4 @@
-import { Shop } from '@prisma/client';
+import { $Enums, Shop } from '@prisma/client';
 import { Decimal } from '@prisma/client/runtime/library';
 import {
   IsDecimalApi,
@@ -14,8 +14,11 @@ import { IsValidDateApi } from '../decorators/valid_date';
 import { PaginationResponseDto, ResponseDto } from './pagination_response.dto';
 import { ApiProperty } from '@nestjs/swagger';
 import { PaginationQueryDto } from './paginagation_query.dto';
+import { IsValidEnumApi } from '../decorators/valid_enum';
 
 export class ShopBaseDto implements Shop {
+  @IsValidEnumApi(Object.values($Enums.CURRENCY_ENUM))
+  currency: $Enums.CURRENCY_ENUM;
   @IsValidNumberOptionnalApi()
   shopWalletBaseId: number;
   @IsValidStringApi()
@@ -44,7 +47,7 @@ export class ShopCreateDto extends OmitType(ShopBaseDto, [
   'updatedAt',
   'walletBaseId',
   'byId',
-  "shopWalletBaseId"
+  'shopWalletBaseId',
 ] as const) {}
 export class ShopEditDto extends ShopCreateDto {
   @IsValidStringOptionalApi()
